@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meredith Liu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        headline: ['Newsreader'],
+        body: ['Manrope'],
+        mono: ['DM Mono'],
+      },
+      colors: {
+        sand: '#F7F5F0',
+        sand2: '#EFEDE8',
+        ink: '#1A1A1A',
+        muted: '#6B6660',
+        dim: '#A8A4A0',
+        warm: '#8C6D3F',
+        blue: '#2C5F8A',
+      }
+    }
+  }
+}
+</script>
+<style>
+  .grain-overlay {
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    pointer-events:none; z-index:9999; opacity:0.025;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .dot {
+    width:6px; height:6px; border-radius:50%; background:#C4A97A;
+    display:inline-block; animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+  .card-hover { transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s ease; }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+  img.grayscale-hover { filter: grayscale(100%); transition: filter 0.7s ease; }
+  .group:hover img.grayscale-hover { filter: grayscale(0%); }
+</style>
+</head>
+<body class="bg-sand text-ink font-body">
+<div class="grain-overlay"></div>
+
+<main class="px-6 py-20 max-w-6xl mx-auto min-h-screen">
+
+  <!-- ── TOP BAR ── -->
+  <div class="flex justify-end items-center gap-6 mb-16">
+    <a href="https://www.linkedin.com/in/meredith-liu-linshu/" target="_blank"
+       class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors flex items-center gap-2">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+        <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+      </svg>
+      LinkedIn
+    </a>
+    <a href="mailto:linshumere@email.com"
+       class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors flex items-center gap-2">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      Email
+    </a>
+  </div>
+
+  <!-- ── HEADER ── -->
+  <header class="mb-20">
+    <div class="flex flex-col md:flex-row md:items-center gap-10 md:gap-16">
+
+      <!-- LEFT: text -->
+      <div class="flex-1">
+        <span class="font-mono text-xs tracking-widest text-dim uppercase mb-4 block">MS Biomedical Engineering · USC 2025</span>
+        <h1 class="font-headline text-6xl md:text-8xl font-bold tracking-tighter text-ink mb-6 leading-none">
+          Meredith Linshu<br><em class="font-normal text-muted">Liu</em>
+        </h1>
+        <p class="font-body text-lg text-muted leading-relaxed max-w-lg">
+          I paint, bake, and tinker with biotech in my free time. 
+          Based in Pittsburgh and Los Angeles. 
+        </p>
+      </div>
+
+      <!-- RIGHT: photo -->
+      <div class="flex-shrink-0">
+        <!-- Swap placeholder for your photo: change src to images/me.jpeg -->
+        <img src="images/me.jpeg" alt="Meredith Liu"
+             style="width:400px;height:600px;object-fit:cover;object-position:center top;border-radius:8px;border:1px solid rgba(0,0,0,0.08);"
+             onerror="this.style.display='none';document.getElementById('photo-placeholder').style.display='flex';">
+        <div id="photo-placeholder"
+             style="display:none;width:200px;height:200px;border-radius:8px;
+                    background:#EFEDE8;border:1px solid rgba(0,0,0,0.08);
+                    align-items:center;justify-content:center;flex-direction:column;gap:6px;">
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;color:#A8A4A0">ML</span>
+          <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#A8A4A0">Add photo</span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════
+       SECTION 1 — SERIOUS WORK
+  ══════════════════════════════════ -->
+  <section class="mb-8">
+    <div class="flex items-center gap-4 mb-8">
+      <span class="font-mono text-xs uppercase tracking-widest text-dim">Serious Work</span>
+      <div class="flex-1 h-px bg-black/8"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+      <!-- BCI — large feature card -->
+      <div class="md:col-span-7 group card-hover cursor-pointer" onclick="window.location='projects/bcidecoding.html'">
+        <div class="bg-white h-full p-8 flex flex-col justify-between border border-black/6 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full bg-warm opacity-60"></div>
+          <div class="pl-4">
+            <span class="font-mono text-xs uppercase tracking-widest text-warm mb-4 block">Neural Decoding · BCI · 2025</span>
+            <h2 class="font-headline text-4xl md:text-5xl font-bold text-ink mb-4 leading-tight">
+              Neural Handwriting<br>Decoding
+            </h2>
+            <p class="font-body text-muted mb-8 max-w-md leading-relaxed">
+              Benchmarked RNN/LSTM vs TCN architectures on 192-channel intracortical motor cortex recordings.
+              TCN reached 64.2% within-session accuracy at 7× the inference speed — but both collapsed to ~9%
+              cross-session, exposing the real frontier of clinical BCI deployment.
+            </p>
+            <div class="flex gap-6">
+              <div>
+                <div class="font-headline text-3xl font-bold text-ink italic">64.2%</div>
+                <div class="font-mono text-xs text-dim uppercase tracking-wide mt-1">Within-session accuracy</div>
+              </div>
+              <div>
+                <div class="font-headline text-3xl font-bold text-ink italic">7×</div>
+                <div class="font-mono text-xs text-dim uppercase tracking-wide mt-1">Inference speed advantage</div>
+              </div>
+              <div>
+                <div class="font-headline text-3xl font-bold text-ink italic">~9%</div>
+                <div class="font-mono text-xs text-dim uppercase tracking-wide mt-1">Cross-session accuracy</div>
+              </div>
+            </div>
+          </div>
+          <div class="pl-4 mt-8 pt-6 border-t border-black/6 flex items-center gap-3">
+            <span class="font-mono text-xs uppercase tracking-widest text-warm">Read more</span>
+            <span class="text-warm text-sm">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Retinal Research — right card -->
+      <div class="md:col-span-5 group card-hover cursor-pointer" onclick="window.location='projects/subretinal_chip.html'">
+        <div class="bg-sand2 h-full p-8 flex flex-col border border-black/6 relative overflow-hidden">
+          <span class="font-mono text-xs uppercase tracking-widest text-dim mb-4 block">Stem Cell Research · UC Irvine · 2022–23</span>
+          <h2 class="font-headline text-3xl font-bold text-ink mb-4 leading-tight">
+            Retinal Research<br><em class="font-normal text-muted">UC Irvine</em>
+          </h2>
+          <p class="font-body text-muted mb-6 leading-relaxed">
+            Four parallel tracks: retinal organoid design and culture from EPSCs, microfluidic chip
+            design for double emulsion PLGA nanoparticle encapsulation, tissue clearing protocol
+            development, and IFA characterisation of subretinal chip and xenograft biocompatibility in a rat model.
+          </p>
+
+          <!-- technique pills -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="font-mono text-xs px-3 py-1 bg-white border border-black/8 text-muted">Organoids</span>
+            <span class="font-mono text-xs px-3 py-1 bg-white border border-black/8 text-muted">Microfluidics</span>
+            <span class="font-mono text-xs px-3 py-1 bg-white border border-black/8 text-muted">Confocal imaging</span>
+            <span class="font-mono text-xs px-3 py-1 bg-white border border-black/8 text-muted">IFA</span>
+          </div>
+
+          <!-- image slot -->
+          <div class="mt-auto overflow-hidden border border-black/6">
+            <div class="relative h-40 bg-sand2 flex items-center justify-center" id="img-uci">
+              <span class="font-mono text-xs text-dim uppercase tracking-widest">Add IFA image</span>
+            </div>
+            <img src="images/closeupIFA.png" alt="IFA staining"
+                 class="w-full h-40 object-cover grayscale-hover hidden" id="img-uci-real"
+                 onload="document.getElementById('img-uci').style.display='none';this.classList.remove('hidden')">
+          </div>
+
+          <div class="mt-6 pt-5 border-t border-black/6 flex items-center gap-3">
+            <a href="projects/subretinal_chip.html" class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">
+              Read more
+            </a>
+            <span class="text-dim text-sm">→</span>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECTION 2 — SIDE QUESTS
+  ══════════════════════════════════ -->
+  <section class="mb-8 mt-16">
+    <div class="flex items-center gap-4 mb-8">
+      <span class="font-mono text-xs uppercase tracking-widest text-dim">Side Quests</span>
+      <div class="flex-1 h-px bg-black/8"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+      <!-- Painting — medium -->
+<div class="md:col-span-4 group card-hover cursor-pointer">
+  <div class="bg-white h-full p-7 flex flex-col border border-black/6">
+    <span class="font-mono text-xs uppercase tracking-widest text-warm mb-3 block">
+      <span class="dot mr-1"></span>Art · Ongoing Always
+    </span>
+    <h3 class="font-headline text-3xl font-bold text-ink mb-3 leading-tight">Oil Painting</h3>
+    <p class="font-body text-sm text-muted leading-relaxed mb-6">
+      A curated collection of oil paintings and sketches created over the years, exploring themes of light, texture, and emotion.
+    </p>
+    <div class="mt-auto h-36 bg-sand2 border border-black/6 flex items-center justify-center overflow-hidden">
+      <img src="images/vgflower.JPG" alt="Play on Van Gogh's famous painting and his ear"
+           
+           onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
+      
+    </div>
+    <div class="mt-6 pt-5 border-t border-black/6 flex items-center gap-3">
+      <a href="projects/oil_paintings.html" class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">
+        Read more
+      </a>
+      <span class="text-dim text-sm">→</span>
+    </div>
+  </div>
+</div>
+
+      <!-- The Best Brioche — medium -->
+      <div class="md:col-span-4 group card-hover cursor-pointer">
+        <div class="bg-sand2 h-full p-7 flex flex-col border border-black/6">
+          <span class="font-mono text-xs uppercase tracking-widest text-dim mb-3 block">Pastry · 2025</span>
+          <h3 class="font-headline text-3xl font-bold text-ink mb-3 leading-tight">3 Day Neopolitan Pizza</h3>
+          <p class="font-body text-sm text-muted leading-relaxed mb-6">
+            First experiment with 90% hydration enrich brioche with 36 hour fermentation.
+          </p>
+          <div class="mt-auto h-36 bg-white border border-black/6 flex items-center justify-center overflow-hidden">
+            <img src="images/pizza.JPG" alt="The best Brioche"
+            
+        
+            onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
+            <span class="font-headline text-3xl italic text-dim">Oil</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column — stacked small cards -->
+      <div class="md:col-span-4 flex flex-col gap-4">
+
+        <div class="card-hover cursor-pointer flex-1">
+          <div class="bg-white p-6 border border-black/6 h-full">
+            <span class="font-mono text-xs text-dim uppercase tracking-widest mb-2 block">Pastry · 2026</span>
+            <h3 class="font-headline text-2xl font-bold text-ink">The Best Brioche</h3>
+            <p class="font-body text-sm text-muted mt-1">90% Hydration, 60% cultured butter enriched, 36 hour fermentation.</p>
+          </div>
+        </div>
+
+        <div class="card-hover cursor-pointer flex-1">
+          <div class="bg-white p-6 border border-black/6 h-full">
+            <span class="font-mono text-xs text-dim uppercase tracking-widest mb-2 block">Fun Idea · 2025</span>
+            <h3 class="font-headline text-2xl font-bold text-ink">Baguette Lamp</h3>
+            <p class="font-body text-sm text-muted mt-1">Dehydrated baguette that is encased in resin.</p>
+          </div>
+        </div>
+
+        <div class="card-hover cursor-pointer flex-1">
+          <div class="bg-white p-6 border border-black/6 h-full">
+            <span class="font-mono text-xs text-dim uppercase tracking-widest mb-2 block">Fun Idea · Ongoing</span>
+            <h3 class="font-headline text-2xl font-bold text-ink">Making Mouth Guard at Home</h3>
+            <p class="font-body text-sm text-muted mt-1">Why pay 200 dollars when you can pay 100 dollars and spend hours on it yourself. </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECTION 3 — CURRENTLY
+  ══════════════════════════════════ -->
+  <section class="mt-16 mb-20">
+    <div class="flex items-center gap-4 mb-8">
+      <span class="font-mono text-xs uppercase tracking-widest text-dim">Currently In Progress</span>
+      <span class="dot"></span>
+      <div class="flex-1 h-px bg-black/8"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+      <!-- PBPK — large -->
+      <div class="md:col-span-8 card-hover cursor-pointer">
+        <div class="bg-warm/5 p-8 border border-warm/25 h-full flex flex-col">
+          <div class="flex items-start justify-between mb-6">
+            <div>
+              <span class="font-mono text-xs uppercase tracking-widest text-warm mb-2 block">
+                <span class="dot mr-1"></span>Computational Pharmacology · 2025
+              </span>
+              <h3 class="font-headline text-4xl font-bold text-ink leading-tight">Drug Interaction<br>Prediction</h3>
+            </div>
+          </div>
+          <p class="font-body text-muted leading-relaxed max-w-lg">
+            Building a PBPK + off-target binding pipeline to predict clinical drug–drug interaction
+            outcomes. Validated against Phase II/III trial data. Applicable to lead optimization
+            and trial design at research-stage biotech.
+          </p>
+          <div class="mt-auto pt-6 border-t border-warm/15">
+            <span class="font-mono text-xs uppercase tracking-widest text-warm">In progress — validation pipeline being built</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Petrodollar — small -->
+      <div class="md:col-span-4 card-hover cursor-pointer">
+        <div class="bg-white p-8 border border-black/6 h-full flex flex-col">
+          <span class="font-mono text-xs uppercase tracking-widest text-warm mb-3 block">
+            <span class="dot mr-1"></span>Research Note · 2025
+          </span>
+          <h3 class="font-headline text-3xl font-bold text-ink leading-tight mb-4">Petrodollars & Biopharma</h3>
+          <p class="font-body text-sm text-muted leading-relaxed">
+            Early-stage research note on how Gulf SWF allocation cycles ripple into biopharma
+            funding and valuations. The lag structure is where the analysis lives.
+          </p>
+          <div class="mt-auto pt-6 border-t border-black/6">
+            <span class="font-mono text-xs text-dim uppercase tracking-widest">Conceptual stage</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-black/8 px-6 py-10 mt-4">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+    <span class="font-headline italic text-xl text-muted">Meredith Liu</span>
+    <div class="flex gap-8">
+      <a href="https://www.linkedin.com/in/meredith-liu-linshu/" target="_blank"
+         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">LinkedIn</a>
+      <a href="https://github.com/meredith-liu" target="_blank"
+         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">GitHub</a>
+      <a href="mailto:linshumere@email.com"
+         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">Email</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

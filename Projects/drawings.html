@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio — Meredith Liu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        headline: ['Newsreader'],
+        body: ['Manrope'],
+        mono: ['DM Mono'],
+      },
+      colors: {
+        sand: '#F7F5F0',
+        sand2: '#EFEDE8',
+        ink: '#1A1A1A',
+        muted: '#6B6660',
+        dim: '#A8A4A0',
+        warm: '#8C6D3F',
+      }
+    }
+  }
+}
+</script>
+<style>
+  .grain-overlay {
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    pointer-events:none; z-index:9999; opacity:0.025;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* masonry layout */
+  .masonry {
+    columns: 2;
+    column-gap: 16px;
+  }
+  @media (min-width: 768px) {
+    .masonry { columns: 3; }
+  }
+  @media (max-width: 480px) {
+    .masonry { columns: 1; }
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 16px;
+  }
+
+  /* lightbox */
+  #lightbox {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(10,10,10,0.92);
+    align-items: center; justify-content: center;
+    padding: 40px;
+  }
+  #lightbox.open { display: flex; }
+  #lb-img {
+    max-width: min(800px, 90vw);
+    max-height: 85vh;
+    object-fit: contain;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  #lb-close {
+    position: absolute; top: 28px; right: 36px;
+    font-size: 20px; color: rgba(255,255,255,0.4);
+    cursor: pointer; background: none; border: none;
+    font-family: 'Manrope', sans-serif;
+    transition: color 0.2s;
+  }
+  #lb-close:hover { color: white; }
+  #lb-caption {
+    position: absolute; bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  #lb-title {
+    font-family: 'Newsreader', serif;
+    font-style: italic; font-size: 18px;
+    color: rgba(255,255,255,0.8);
+    display: block; margin-bottom: 4px;
+  }
+  #lb-medium {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    display: block;
+  }
+
+  .painting-card {
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .painting-card:hover { opacity: 0.88; }
+  .painting-card:hover .card-overlay {
+    opacity: 1;
+  }
+  .card-overlay {
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  /* filter buttons */
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #A8A4A0;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .filter-btn:hover { color: #1A1A1A; border-color: rgba(0,0,0,0.2); }
+  .filter-btn.on {
+    color: #8C6D3F;
+    border-color: rgba(140,109,63,0.4);
+    background: rgba(140,109,63,0.06);
+  }
+
+  .item-hidden { display: none; }
+</style>
+</head>
+<body class="bg-sand text-ink font-body">
+<div class="grain-overlay"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLB()">
+  <button id="lb-close" onclick="closeLB()">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption">
+    <span id="lb-title"></span>
+    <span id="lb-medium"></span>
+  </div>
+</div>
+
+<main class="px-6 py-16 max-w-6xl mx-auto">
+
+  <!-- TOP BAR -->
+  <div class="flex justify-between items-center mb-16">
+    <a href="../index.html"
+       class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors flex items-center gap-2">
+      ← Back
+    </a>
+    <div class="flex gap-6">
+      <a href="https://www.linkedin.com/in/meredith-liu-linshu/" target="_blank"
+         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">LinkedIn</a>
+      <a href="mailto:linshumere@email.com"
+         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">Email</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="mb-16">
+    <span class="font-mono text-xs tracking-widest text-dim uppercase mb-4 block">Oil · Pencil</span>
+    <h1 class="font-headline text-6xl md:text-7xl font-bold tracking-tighter text-ink mb-6 leading-none">
+      Studio
+    </h1>
+    <p class="font-body text-lg text-muted max-w-lg leading-relaxed">
+      Not a professional practice, just a serious one. Mostly still life,
+      portraits, and observation — working through value before colour.
+    </p>
+  </header>
+
+  <!-- FILTER -->
+  <div class="flex gap-2 mb-10">
+    <button class="filter-btn on" onclick="filter('all', this)">All</button>
+    <button class="filter-btn" onclick="filter('oil', this)">Oil</button>
+    <button class="filter-btn" onclick="filter('sketch', this)">Sketch</button>
+    
+  </div>
+
+  <!-- MASONRY GRID -->
+  <div class="masonry" id="gallery">
+
+    <!--
+    ══════════════════════════════════════
+    HOW TO ADD A NEW PAINTING:
+
+    1. Copy one .masonry-item block below
+    2. Change data-medium to: oil / sketch / ink
+    3. Change src to your image path
+    4. Update title, medium label, and note
+    5. Save and refresh
+
+    The image height is set by the actual
+    image — no need to set a fixed height.
+    ══════════════════════════════════════
+    -->
+
+    <!-- PAINTING 1 -->
+    <div class="masonry-item painting-card" data-medium="oil"
+         onclick="openLB('images/vgflower.JPG', 'Play on Van Gogh', 'Oil on canvas')">
+      <div class="relative overflow-hidden border border-black/6">
+        <!-- placeholder shown until image loads -->
+        <div class="bg-sand2 h-64 flex items-center justify-center" id="ph-1">
+          <span class="font-mono text-xs text-dim uppercase tracking-widest">Loading…</span>
+        </div>
+        <img src="images/vgflower.JPG" alt="Play on Van Gogh"
+             class="w-full block hidden"
+             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
+        <!-- hover overlay -->
+        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
+          <span class="font-headline italic text-white text-lg">Play on Van Gogh</span>
+        </div>
+      </div>
+      <div class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Play on Van Gogh</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
+          Riffing on the sunflower series — same subject, different light temperature and handling.
+        </p>
+      </div>
+    </div>
+
+    <!-- PAINTING 2 -->
+    <div class="masonry-item painting-card" data-medium="sketch"
+         onclick="openLB('images/figure-study.jpg', 'Figure Study', 'Pencil on newsprint')">
+      <div class="relative overflow-hidden border border-black/6">
+        <div class="bg-sand2 h-80 flex items-center justify-center" id="ph-2">
+          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
+        </div>
+        <img src="images/figure-study.jpg" alt="Figure Study"
+             class="w-full block hidden"
+             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
+        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
+          <span class="font-headline italic text-white text-lg">Figure Study</span>
+        </div>
+      </div>
+      <div class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Figure Study</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Pencil</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
+          30-minute gesture. Trying to capture weight before detail.
+        </p>
+      </div>
+    </div>
+
+    <!-- PAINTING 3 -->
+    <div class="masonry-item painting-card" data-medium="oil"
+         onclick="openLB('images/still-life.jpg', 'Still Life with Ceramic', 'Oil on canvas')">
+      <div class="relative overflow-hidden border border-black/6">
+        <div class="bg-sand2 h-56 flex items-center justify-center">
+          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
+        </div>
+        <img src="images/still-life.jpg" alt="Still Life with Ceramic"
+             class="w-full block hidden"
+             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
+        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
+          <span class="font-headline italic text-white text-lg">Still Life with Ceramic</span>
+        </div>
+      </div>
+      <div class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Still Life with Ceramic</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
+          First experiment with glazing layers over an imprimatura. Single light source.
+        </p>
+      </div>
+    </div>
+
+    <!-- PAINTING 4 -->
+    <div class="masonry-item painting-card" data-medium="ink"
+         onclick="openLB('images/architectural-sketch.jpg', 'Architectural Sketch', 'Ink on paper')">
+      <div class="relative overflow-hidden border border-black/6">
+        <div class="bg-sand2 h-72 flex items-center justify-center">
+          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
+        </div>
+        <img src="images/architectural-sketch.jpg" alt="Architectural Sketch"
+             class="w-full block hidden"
+             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
+        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
+          <span class="font-headline italic text-white text-lg">Architectural Sketch</span>
+        </div>
+      </div>
+      <div class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Architectural Sketch</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Ink</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
+          Building facades from observation. Quick ink study — no underdrawing.
+        </p>
+      </div>
+    </div>
+
+    <!-- PAINTING 5 -->
+    <div class="masonry-item painting-card" data-medium="oil"
+         onclick="openLB('images/light-study.jpg', 'Light Study', 'Oil on panel')">
+      <div class="relative overflow-hidden border border-black/6">
+        <div class="bg-sand2 h-48 flex items-center justify-center">
+          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
+        </div>
+        <img src="images/light-study.jpg" alt="Light Study"
+             class="w-full block hidden"
+             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
+        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
+          <span class="font-headline italic text-white text-lg">Light Study</span>
+        </div>
+      </div>
+      <div class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Light Study</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
+          High-chroma shadow temperature. Single artificial source, hard shadows.
+        </p>
+      </div>
+    </div>
+
+    <!-- PAINTING 6 -->
+    <div class="masonry-item painting-card" data-medium="sketch"
+         onclick="openLB('images/portrait-study.jpg', 'Portrait Study', 'Graphite on paper')">
+      <div class="relative overflow-hidden border border-black/6">
+        <div class="bg-sand2 h-96 flex items-center justify-center">
+          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
+        </div>
+        <img src="images/portrait-study.jpg" alt="Portrait Study"
+             class="w-full block hidden"
+             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
+        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
+          <span class="font-headline italic text-white text-lg">Portrait Study</span>
+        </div>
+      </div>
+      <div class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Portrait Study</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Graphite</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
+          Value structure before likeness. The shadow shapes do the work.
+        </p>
+      </div>
+    </div>
+
+    <!--
+    ADD MORE PAINTINGS HERE.
+    Copy any .masonry-item block above,
+    update src, title, medium, and note.
+    -->
+
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-black/8 px-6 py-10 mt-4">
+  <div class="max-w-6xl mx-auto flex justify-between items-center flex-wrap gap-6">
+    <span class="font-headline italic text-xl text-muted">Meredith Liu</span>
+    <div class="flex gap-8">
+      <a href="../index.html"
+         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">← Home</a>
+      <a href="https://www.linkedin.com/in/meredith-liu-linshu/" target="_blank"
+         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── FILTER ──
+function filter(medium, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  document.querySelectorAll('.masonry-item').forEach(function(item) {
+    if (medium === 'all' || item.dataset.medium === medium) {
+      item.classList.remove('item-hidden');
+    } else {
+      item.classList.add('item-hidden');
+    }
+  });
+}
+
+// ── LIGHTBOX ──
+function openLB(src, title, medium) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb-title').textContent = title;
+  document.getElementById('lb-medium').textContent = medium;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLB() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLB();
+});
+</script>
+</body>
+</html>

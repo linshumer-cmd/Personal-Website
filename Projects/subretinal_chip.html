@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retinal Research — UC Irvine — Meredith Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:#F8F6F1;
+  color:#1C1C1C;
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  font-size:15px;
+  line-height:1.7;
+}
+a { color:inherit; text-decoration:none; }
+
+nav {
+  position:fixed; top:0; left:0; right:0;
+  z-index:100; height:52px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px;
+  background:rgba(248,246,241,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+}
+.nav-back { font-size:12px; color:#999; transition:color .2s; letter-spacing:.02em; }
+.nav-back:hover { color:#1C1C1C; }
+.nav-right { display:flex; gap:20px; align-items:center; }
+.nav-right a {
+  font-size:12px; color:#999;
+  transition:color .2s; letter-spacing:.02em;
+  display:flex; align-items:center; gap:5px;
+}
+.nav-right a:hover { color:#1C1C1C; }
+.nav-right svg { width:12px; height:12px; }
+
+.page {
+  max-width:640px;
+  margin:0 auto;
+  padding:100px 40px 120px;
+}
+
+h1 {
+  font-family:'Lora',serif;
+  font-size:36px; font-weight:400;
+  line-height:1.15; letter-spacing:-.015em;
+  margin-bottom:16px;
+}
+.summary {
+  font-size:16px; line-height:1.85;
+  color:#666; margin-bottom:48px;
+  border-left:2px solid rgba(0,0,0,0.1);
+  padding-left:18px;
+}
+
+/* technique blocks */
+.technique {
+  padding:28px 0;
+  border-top:1px solid rgba(0,0,0,0.07);
+}
+.technique:last-of-type { border-bottom:1px solid rgba(0,0,0,0.07); }
+.technique-label {
+  font-size:10px; letter-spacing:.18em;
+  text-transform:uppercase; color:#BBB;
+  margin-bottom:10px; display:block;
+}
+.technique h2 {
+  font-family:'Lora',serif;
+  font-size:22px; font-weight:400;
+  margin-bottom:12px; margin-top:0;
+}
+.technique p {
+  font-size:14px; line-height:1.85;
+  color:#666; margin-bottom:0;
+}
+
+figure {
+  margin:20px 0 0;
+  border:1px solid rgba(0,0,0,0.08);
+  overflow:hidden;
+}
+figure img { width:100%; display:block; }
+figcaption {
+  font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:#BBB;
+  padding:9px 14px;
+  background:#ECEAE4;
+  border-top:1px solid rgba(0,0,0,0.07);
+}
+.img-placeholder {
+  height:160px; background:#ECEAE4;
+  display:flex; align-items:center; justify-content:center;
+}
+.img-placeholder span {
+  font-size:12px; letter-spacing:.1em;
+  text-transform:uppercase; color:#BBB;
+}
+
+/* two-col image grid */
+.fig-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:2px; margin-top:20px;
+}
+.fig-grid figure { margin:0; }
+
+.skills {
+  margin-top:48px; padding-top:28px;
+  border-top:1px solid rgba(0,0,0,0.07);
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.skill {
+  font-size:11px; color:#999;
+  border:1px solid rgba(0,0,0,0.1);
+  padding:4px 12px; border-radius:2px;
+  letter-spacing:.04em;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Back</a>
+  <div class="nav-right">
+    <a href="https://linkedin.com/in/meredith-liu" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="mailto:your@email.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email
+    </a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <h1>Retinal Research<br><span style="font-style:italic;color:#999">UC Irvine</span></h1>
+
+  <p class="summary">
+    Two years of wet lab work across four parallel tracks, growing retinal organoids
+    from stem cells, designing a microfluidic chip for double emulsion encapsulation,
+    developing a tissue clearing protocol, and characterizing the cellular response
+    to subretinally implanted photovoltaic chips. The unifying question: how do we
+    build and interface with retinal tissue in ways that last?
+  </p>
+
+  <!-- ── 1. ORGANOIDS ── -->
+  <div class="technique">
+    <span class="technique-label">Track 01</span>
+    <h2>Retinal Organoid Culture</h2>
+    <p>
+      Cultivated retinal organoids from embryonic pluripotent stem cells (EPSCs),
+      guiding differentiation through a staged protocol toward retinal progenitor and
+      photoreceptor cell fates. The work involved maintaining organoid sheets in culture,
+      optimizing media formulations and timing for each differentiation stage, and
+      characterizing the resulting tissue by morphology and marker expression. The goal
+      was to produce tissue that could serve as a testbed for implant interaction studies
+      and eventually as transplantable material for degenerative retinal disease.
+    </p>
+    <!-- Add organoid image if you have one -->
+    <figure>
+      <div class="img-placeholder" id="ph-org"><span>Add organoid image</span></div>
+      <img src="../images/cella-agg.jpeg" alt="Retinal organoid"
+           style="display:none"
+           onload="this.style.display='block';document.getElementById('ph-org').style.display='none'">
+      <figcaption>Embryonic cell aggregations in culture/figcaption>
+    </figure>
+  </div>
+
+  <!-- ── 2. MICROFLUIDICS ── -->
+  <div class="technique">
+    <span class="technique-label">Track 02</span>
+    <h2>Microfluidic Chip for Double Emulsion</h2>
+    <p>
+      The exisiting protocol for encapsulating growth factors in PLGA nanoparticles (NPs), critical for promoting tissue adherence and integration post-surgery, relied entirely on vortexing, whcih produces NPs with highly variable size distributions. 
+        I designed a microfluidic chip to generate double emulsion droplets with more controlled size and uniformity, which should yield more consistent NP characteristics. The design process involved CAD modeling of the microfluidic channels, fabrication using soft lithography, and testing with fluorescent dyes to optimize flow rates and droplet formation before moving on to actual NP synthesis.
+        In a double emulsion geometry, an inner aqueous phase (containing the growth factor payload) is first emulsified into an oil phase at one junction, then that droplet is encapsulated into an outer aqueous phase at a second junction — producing a core-shell structure. Because droplet size is governed by channel geometry and flow rate ratios rather than mechanical agitation, the result is monodisperse particles with size you can actually tune by adjusting flow rates. The chip design went through multiple iterations to stabilize droplet formation at both junctions and prevent coalescence downstream.
+    </p>
+    <!-- Add microfluidic chip image if you have one -->
+    <figure>
+      <div class="img-placeholder" id="ph-mf"><span>Add microfluidic chip image</span></div>
+      <img src="../images/emulsion_chip.png" alt="Microfluidic chip"
+           style="display:none"
+           onload="this.style.display='block';document.getElementById('ph-mf').style.display='none'">
+      <figcaption>Microfluidic chip design — double emulsion geometry</figcaption>
+    </figure>
+  </div>
+
+  <!-- ── 3. TISSUE CLEARING ── -->
+  <div class="technique">
+    <span class="technique-label">Track 03</span>
+    <h2>Tissue Clearing Protocol Development</h2>
+    <p>
+      Worked on establishing a tissue clearing protocol to render retinal and organoid
+      tissue optically transparent for volumetric imaging. Tissue clearing removes lipids
+      that scatter light, allowing fluorescence imaging of intact 3D tissue without
+      physical sectioning — which preserves spatial relationships that serial sections
+      destroy. The challenge is balancing clearing efficiency against signal preservation:
+      aggressive clearing can wash out fluorescent labels or deform tissue. Protocol
+      development involved testing clearing agents, incubation conditions, and refractive
+      index matching solutions, evaluating each iteration against both transparency and
+      antibody staining retention.
+    </p>
+  </div>
+
+  <!-- ── 4. SUBRETINAL CHIP IFA ── -->
+  <div class="technique">
+    <span class="technique-label">Track 04</span>
+    <h2>Subretinal Chip Biocompatibility — IFA</h2>
+    <p>
+      Investigated cellular and tissue-level responses to photovoltaic chips implanted
+      in the subretinal space of a rat model, across multiple surgeries and days
+      post-surgery (DPS 146–152). Sections were stained for GFAP (glial reactivity),
+      PKCalpha (bipolar cell integrity), and Calretinin (amacrine and horizontal cells),
+      then compared against sham-operated controls. Chip geometry — particularly bending
+      and proximity to the optic disc — correlated with where Schwann cell infiltration
+      appeared, suggesting that mechanical placement precision is a biocompatibility
+      variable, not just an engineering one.
+    </p>
+
+    <div class="fig-grid">
+      <figure>
+        <div class="img-placeholder" id="ph-chip"><span>Add chip IFA image</span></div>
+        <img src="../images/rn2710-section-a.png.001.png" alt="Rn2710 IFA"
+             style="display:none"
+             onload="this.style.display='block';document.getElementById('ph-chip').style.display='none'">
+        <figcaption>Rn2710 · Bent chip · GFAP · PKCalpha · Calretinin</figcaption>
+      </figure>
+      <figure>
+        <div class="img-placeholder" id="ph-sham"><span>Add sham comparison</span></div>
+        <img src="../images/rn2710-vs-sham.png.001.png" alt="Implant vs sham"
+             style="display:none"
+             onload="this.style.display='block';document.getElementById('ph-sham').style.display='none'">
+        <figcaption>Implanted vs Sham · GFAP + DAPI</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="skills">
+    <span class="skill">EPSC culture</span>
+    <span class="skill">Retinal organoids</span>
+    <span class="skill">Microfluidics</span>
+    <span class="skill">Double emulsion</span>
+    <span class="skill">Tissue clearing</span>
+    <span class="skill">Immunofluorescence</span>
+    <span class="skill">Confocal microscopy</span>
+  </div>
+
+</div>
+</body>
+</html>

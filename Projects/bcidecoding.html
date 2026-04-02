@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neural Handwriting Decoding — Meredith Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:#F8F6F1;
+  color:#1C1C1C;
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  font-size:15px;
+  line-height:1.7;
+}
+a { color:inherit; text-decoration:none; }
+
+nav {
+  position:fixed; top:0; left:0; right:0;
+  z-index:100; height:52px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px;
+  background:rgba(248,246,241,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+}
+.nav-back { font-size:12px; color:#999; transition:color .2s; letter-spacing:.02em; }
+.nav-back:hover { color:#1C1C1C; }
+.nav-right {
+  display:flex; gap:20px; align-items:center;
+}
+.nav-right a {
+  font-size:12px; color:#999;
+  transition:color .2s; letter-spacing:.02em;
+  display:flex; align-items:center; gap:5px;
+}
+.nav-right a:hover { color:#1C1C1C; }
+.nav-right svg { width:12px; height:12px; }
+
+.page {
+  max-width:640px;
+  margin:0 auto;
+  padding:100px 40px 120px;
+}
+
+h1 {
+  font-family:'Lora',serif;
+  font-size:36px; font-weight:400;
+  line-height:1.15; letter-spacing:-.015em;
+  margin-bottom:16px;
+}
+.summary {
+  font-size:16px; line-height:1.85;
+  color:#666; margin-bottom:40px;
+  border-left:2px solid rgba(0,0,0,0.1);
+  padding-left:18px;
+}
+
+/* stat row */
+.stats {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:2px; margin-bottom:48px;
+}
+.stat {
+  background:#ECEAE4; padding:18px 20px;
+}
+.stat-val {
+  font-family:'Lora',serif; font-style:italic;
+  font-size:28px; color:#1C1C1C;
+  line-height:1; margin-bottom:6px;
+}
+.stat-label {
+  font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; color:#999;
+  line-height:1.4;
+}
+
+h2 {
+  font-family:'Lora',serif;
+  font-size:18px; font-weight:400;
+  margin:40px 0 12px;
+}
+p {
+  font-size:14px; line-height:1.85;
+  color:#666; margin-bottom:14px;
+}
+
+figure {
+  margin:32px 0;
+  border:1px solid rgba(0,0,0,0.08);
+  overflow:hidden;
+}
+figure img { width:100%; display:block; }
+figcaption {
+  font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:#BBB;
+  padding:9px 14px;
+  background:#ECEAE4;
+  border-top:1px solid rgba(0,0,0,0.07);
+}
+.img-placeholder {
+  height:180px; background:#ECEAE4;
+  display:flex; align-items:center; justify-content:center;
+}
+.img-placeholder span {
+  font-size:12px; letter-spacing:.1em;
+  text-transform:uppercase; color:#BBB;
+}
+
+.skills {
+  margin-top:48px; padding-top:28px;
+  border-top:1px solid rgba(0,0,0,0.07);
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.skill {
+  font-size:11px; color:#999;
+  border:1px solid rgba(0,0,0,0.1);
+  padding:4px 12px; border-radius:2px;
+  letter-spacing:.04em;
+}
+.report-link {
+  display:inline-flex; align-items:center; gap:10px;
+  margin-top:48px; padding:18px 24px;
+  border:1px solid rgba(0,0,0,0.1);
+  font-size:13px; color:#666;
+  transition:all .2s; width:100%;
+}
+.report-link:hover {
+  border-color:rgba(0,0,0,0.2);
+  color:#1C1C1C; background:#ECEAE4;
+}
+.report-link-icon {
+  font-family:'Lora',serif; font-style:italic;
+  font-size:20px; color:#BBB; flex-shrink:0;
+}
+.report-link-text { flex:1; }
+.report-link-title {
+  font-size:14px; color:#1C1C1C;
+  display:block; margin-bottom:2px;
+}
+.report-link-sub {
+  font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; color:#BBB;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-back" href="../index.html">← Back</a>
+  <div class="nav-right">
+    <a href="https://llinkedin.com/in/meredith-liu-linshu" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="mailto:linshumere@email.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email
+    </a>
+  </div>
+</nav>
+ 
+<div class="page">
+
+  <h1>Neural Handwriting Decoding</h1>
+
+  <p class="summary">
+    Built and benchmarked two deep learning architectures — a GRU-based RNN and a
+    Temporal Convolutional Network — to decode handwritten characters from 192-channel
+    intracortical motor cortex recordings. Handled the full pipeline: signal preprocessing,
+    temporal alignment, model design, training, and cross-session generalization analysis.
+  </p>
+
+  <!-- Key numbers -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-val">64.2%</div>
+      <div class="stat-label">TCN within-session accuracy</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">7×</div>
+      <div class="stat-label">TCN inference speed advantage over RNN</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">~9%</div>
+      <div class="stat-label">Cross-session accuracy — the real problem</div>
+    </div>
+  </div>
+
+  <h2>The pipeline</h2>
+
+  <p>
+    Raw recordings came from participant T5, a person with C4 spinal injury, using two implanted
+    96-channel Utah arrays during a cued handwriting task. The signals required substantial
+    preprocessing before any model could learn from them: baseline drift correction using
+    per-block firing rate statistics, global variance normalization, and Gaussian smoothing
+    to reduce high-frequency noise while preserving temporal structure.
+  </p>
+  <p>
+    The hardest preprocessing step was temporal alignment. Different trials of the same character
+    had variable movement onset timing, which scrambles the time-series signal that the model
+    is supposed to learn. I applied Time-Warped PCA (TWPCA) to align trials onto a shared
+    time axis by learning smooth, monotonic warp functions per trial, compressing or stretching
+    each trial's timeline to match a canonical template. This significantly reduced trial-to-trial
+    variability and gave the models cleaner input.
+  </p>
+
+  <!-- Add your preprocessing figure here -->
+  <figure>
+    <div class="img-placeholder" id="ph1"><span>Add preprocessing figure</span></div>
+    <img src="../images/a_warped_vs_unwarped.png" alt="Before and after TWPCA"
+         style="display:none"
+         onload="this.style.display='block';document.getElementById('ph1').style.display='none'">
+    <figcaption>Neural trajectories for letter "a" before and after time-warping — TWPCA reduces trial-to-trial jitter</figcaption>
+  </figure>
+
+  <h2>What the results actually show</h2>
+
+  <p>
+    The TCN reached 64.2% within-session accuracy against the RNN's 37.7% — a meaningful gap
+    that comes from the TCN's dilated causal convolutions capturing multi-scale temporal patterns
+    in parallel, while the GRU processes step-by-step and struggles with the small dataset size.
+    The TCN also ran inference at 0.45 ms/sample versus 3.3 ms/sample for the RNN, a 7× speed
+    advantage that matters for real-time BCI deployment.
+  </p>
+  <p>
+    But the more important finding is the cross-session collapse. Both models fell to ~9% accuracy
+    on held-out sessions — near chance. This isn't a modeling failure, it's a data problem:
+    intracortical signals drift day-to-day as electrode-tissue interfaces evolve. The statistical
+    properties the model learned on Monday don't hold on Friday. No architecture solves this
+    without either per-session recalibration or explicit domain adaptation. That gap — from 64%
+    to 9% — is the actual frontier of clinical BCI deployment.
+  </p>
+
+  <!-- Add your results figure here -->
+  <figure>
+    <div class="img-placeholder" id="ph2"><span>Add results figure</span></div>
+    <img src="../images/rnn_perf.png" alt="TCN vs RNN performance"
+         style="display:none"
+         onload="this.style.display='block';document.getElementById('ph2').style.display='none'">
+    <img src="../images/tcn_perf.png" alt="TCN vs RNN performance"
+         style="display:none"
+         onload="this.style.display='block';document.getElementById('ph2').style.display='none'">
+    <figcaption>TCN vs RNN — within-session accuracy, confidence calibration, and cross-session generalization</figcaption>
+  </figure>
+
+  <p>
+    Our comparison of TCN and RNN architectures for neural handwriting decoding reveals that both approaches
+face severe cross-session generalization challenges when evaluated without temporal alignment, emphasizing
+the importance of domain alignment in neural decoding and BCI development. While the TCN offers
+computational advantages, achieving robust neural decoding for real-world BCI applications will require
+addressing the fundamental non-stationarity of intracortical signals through preprocessing, architectural
+innovations, or adaptive calibration strategies.
+  </p>
+
+  <a class="report-link" href="../Projects/Neural_decoding_RNN_vs_TCN.pdf" target="_blank">
+    <span class="report-link-icon">↗</span>
+    <span class="report-link-text">
+      <span class="report-link-title">Full Report — Neural Handwriting Decoding</span>
+      <span class="report-link-sub">PDF · USC · 2025</span>
+    </span>
+  </a>
+ 
+
+</div>
+</body>
+</html>
