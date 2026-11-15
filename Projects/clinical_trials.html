@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinical Trial Landscape — California Academic Medical Centers — Meredith Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F7F5F0; --sand2:#EFEDE8; --white:#FFFFFF;
+  --ink:#1A1A1A; --muted:#6B6660; --dim:#A8A4A0;
+  --warm:#8C6D3F; --warm-soft:#C4A97A; --blue:#2C5F8A;
+  --peer:#CFCAC2; --grid:rgba(0,0,0,0.07); --line:rgba(0,0,0,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--sand);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;font-size:15px;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.mono{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(247,245,240,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav a{font-size:12px;color:#999;transition:color .2s}
+nav a:hover{color:var(--ink)}
+.wrap{max-width:1120px;margin:0 auto;padding:104px 32px 120px}
+.eyebrow{color:var(--warm);display:block;margin-bottom:14px}
+h1{font-family:'Newsreader',serif;font-weight:700;font-size:clamp(40px,6vw,68px);line-height:1;letter-spacing:-.02em;margin-bottom:22px}
+h1 em{font-weight:400;color:var(--muted)}
+.lede{max-width:680px;color:var(--muted);font-size:17px;line-height:1.75;margin-bottom:12px}
+.meta{color:var(--dim);margin-top:18px}
+.section-rule{display:flex;align-items:center;gap:16px;margin:56px 0 22px}
+.section-rule span{color:var(--dim)}
+.section-rule div{flex:1;height:1px;background:var(--line)}
+/* filter row */
+.filters{position:sticky;top:52px;z-index:50;background:rgba(247,245,240,.96);backdrop-filter:blur(8px);padding:14px 0;margin-top:36px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.filters .label{color:var(--dim);margin-right:8px}
+.pill{font-family:'DM Mono',monospace;font-size:12px;padding:7px 14px;border:1px solid rgba(0,0,0,.12);background:var(--white);color:var(--muted);cursor:pointer;transition:all .2s}
+.pill:hover{border-color:var(--ink);color:var(--ink)}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--sand);border-color:var(--ink)}
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{background:var(--white);border:1px solid var(--line);padding:22px 22px 18px}
+.kpi .v{font-family:'Newsreader',serif;font-style:italic;font-weight:600;font-size:40px;line-height:1.05;margin:10px 0 6px}
+.kpi .s{font-size:13px;color:var(--muted)}
+.kpi .k{color:var(--dim)}
+.up{color:var(--warm)} .down{color:var(--blue)}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.card{background:var(--white);border:1px solid var(--line);padding:24px 24px 18px;position:relative}
+.card.alt{background:var(--sand2)}
+.c12{grid-column:span 12}.c7{grid-column:span 7}.c5{grid-column:span 5}.c6{grid-column:span 6}
+.card h2{font-family:'Newsreader',serif;font-weight:600;font-size:24px;line-height:1.2;margin:6px 0 4px}
+.card .sub{font-size:13px;color:var(--muted);margin-bottom:14px;max-width:560px}
+.card .k{color:var(--dim)}
+.takeaway{border-top:1px solid var(--line);margin-top:10px;padding-top:12px;font-size:13px;color:var(--muted)}
+.takeaway b{color:var(--ink);font-weight:600}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:'Manrope',sans-serif;fill:var(--muted);font-size:11px}
+svg .ax{font-family:'DM Mono',monospace;font-size:10px;fill:var(--dim)}
+svg .lbl-strong{fill:var(--ink);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:-4px 0 10px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.legend i.dot{width:9px;height:9px;border-radius:50%}
+.legend i.ring{width:9px;height:9px;border-radius:50%;border:2px solid var(--dim);background:var(--white)}
+#tip{position:fixed;pointer-events:none;z-index:200;background:var(--ink);color:var(--sand);font-size:12px;line-height:1.5;padding:9px 11px;max-width:260px;opacity:0;transition:opacity .12s;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+#tip .t{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--warm-soft);margin-bottom:3px}
+#tip .row{display:flex;justify-content:space-between;gap:14px}
+#tip .row.f{font-weight:600;color:#fff}
+.method{max-width:760px;color:var(--muted);font-size:14px;line-height:1.8}
+.method p{margin-bottom:12px}
+.method b{color:var(--ink);font-weight:600}
+details{margin-top:18px;background:var(--white);border:1px solid var(--line);padding:16px 20px}
+summary{cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+table{border-collapse:collapse;width:100%;margin-top:14px;font-size:13px}
+th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:400}
+footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--dim)}
+@media (max-width:860px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .c7,.c5,.c6{grid-column:span 12}
+  nav{padding:0 20px}.wrap{padding:96px 18px 80px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">← Meredith Liu</a>
+  <a href="https://clinicaltrials.gov" target="_blank" rel="noopener">Data: ClinicalTrials.gov ↗</a>
+</nav>
+<div id="tip" role="tooltip"></div>
+
+<main class="wrap">
+  <span class="mono eyebrow">Clinical Trial BI · Dashboard · 2026</span>
+  <h1>Who runs California's<br><em>clinical trials?</em></h1>
+  <p class="lede">A benchmarking dashboard of <span id="nTrials"></span> registered studies sponsored by seven California academic medical centers — UCSF, Stanford, UCLA, UC San Diego, UC Davis, USC and UC Irvine — pulled from ClinicalTrials.gov, cleaned in Python and modeled for Tableau.</p>
+  <p class="lede">Pick an institution to see how its trial portfolio, growth, industry ties and failure profile compare with its peers.</p>
+  <div class="mono meta">Data pulled <span id="pullDate"></span> · lead-sponsor studies only</div>
+
+  <div class="filters" role="group" aria-label="Focus institution">
+    <span class="mono label">Focus</span>
+    <div id="pills" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+  </div>
+
+  <div class="section-rule"><span class="mono">Scorecard</span><div></div></div>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="section-rule"><span class="mono">Volume &amp; momentum</span><div></div></div>
+  <div class="grid">
+    <div class="card c7">
+      <span class="mono k">Trend</span>
+      <h2>New trials started per year</h2>
+      <p class="sub">Studies by start year, 2010–2025. Focus institution in bronze; peers in gray.</p>
+      <div class="legend"><span><i style="background:var(--warm)"></i><span class="focusName"></span></span><span><i style="background:var(--peer)"></i>Peers</span></div>
+      <div id="trend"></div>
+      <div class="takeaway" id="trendTake"></div>
+    </div>
+    <div class="card c5 alt">
+      <span class="mono k">Growth</span>
+      <h2>Change in annual starts</h2>
+      <p class="sub">Average trials per year, 2020–25 vs 2010–15.</p>
+      <div id="growth"></div>
+      <div class="takeaway" id="growthTake"></div>
+    </div>
+  </div>
+
+  <div class="section-rule"><span class="mono">When trials fail</span><div></div></div>
+  <div class="grid">
+    <div class="card c7">
+      <span class="mono k">Termination</span>
+      <h2>Stopped-early rate: actual vs expected</h2>
+      <p class="sub">Share of trials terminated, withdrawn or suspended, against the rate expected for each institution's mix of trials (closed-out benchmark, so slightly different from the scorecard figure). Sorted by the ratio.</p>
+      <div class="legend"><span><i class="dot" style="background:var(--ink)"></i>Actual</span><span><i class="ring"></i>Expected for its mix</span></div>
+      <div id="term"></div>
+      <div class="takeaway" id="termTake"></div>
+    </div>
+    <div class="card c5 alt">
+      <span class="mono k">Stop reasons</span>
+      <h2>Why <span class="focusName"></span> trials stop</h2>
+      <p class="sub">Coded from the free-text "why stopped" field. Share of stopped trials.</p>
+      <div id="stops"></div>
+      <div class="takeaway" id="stopTake"></div>
+    </div>
+  </div>
+
+  <div class="section-rule"><span class="mono">Portfolio</span><div></div></div>
+  <div class="grid">
+    <div class="card c6">
+      <span class="mono k">Therapeutic focus</span>
+      <h2>Where <span class="focusName"></span> over- and under-indexes</h2>
+      <p class="sub">Share of portfolio in each therapeutic area minus the peer average, in percentage points. Ten largest gaps shown.</p>
+      <div class="legend"><span><i style="background:var(--warm);height:9px"></i>More than peers</span><span><i style="background:var(--blue);height:9px"></i>Less than peers</span></div>
+      <div id="areas"></div>
+    </div>
+    <div class="card c6 alt">
+      <span class="mono k">Similarity</span>
+      <h2>How alike are the portfolios?</h2>
+      <p class="sub">Cosine similarity of therapeutic-area mix. 1.0 means identical. Darker = more similar.</p>
+      <div id="sim"></div>
+      <div class="takeaway" id="simTake"></div>
+    </div>
+    <div class="card c6">
+      <span class="mono k">Phase mix</span>
+      <h2>Trial phase, % of portfolio</h2>
+      <p class="sub">Each row sums to 100%. Darker = larger share.</p>
+      <div id="phase"></div>
+    </div>
+    <div class="card c6">
+      <span class="mono k">Intervention mix</span>
+      <h2>What's being tested, % of interventions</h2>
+      <p class="sub">A trial can test more than one intervention type. Darker = larger share.</p>
+      <div id="interv"></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>View scorecard as a table</summary>
+    <div id="tables"></div>
+  </details>
+
+  <div class="section-rule"><span class="mono">Method</span><div></div></div>
+  <div class="method">
+    <p><b>Data.</b> Studies whose lead sponsor is one of the seven institutions (or an affiliated entity) were pulled from ClinicalTrials.gov, then cleaned and flattened in a Python notebook into one row per trial (status, phase, enrollment, intervention types, conditions, industry collaborators). The same tables power the Tableau workbook and this page.</p>
+    <p><b>Therapeutic areas</b> are assigned from MeSH condition terms first, then keyword rules on condition text; trials matching neither are "Other / unclassified". <b>Industry-partnered</b> means at least one listed collaborator is a company. <b>Stopped early</b> covers terminated, withdrawn and suspended studies.</p>
+    <p><b>Caveats.</b> Registry data is self-reported and lags; some start dates are anticipated or mis-entered; and lead-sponsor filtering undercounts trials where an institution is a participating site rather than the sponsor.</p>
+  </div>
+
+  <footer>
+    <span class="mono">Meredith Linshu Liu</span>
+    <a class="mono" href="../index.html">Back to home →</a>
+  </footer>
+</main>
+
+<script>
+const D = {"scorecard": [{"institution": "UCSF", "trials": 1801, "pct_active": 19.7, "termination_rate": 12.5, "pct_industry": 11.7}, {"institution": "Stanford", "trials": 1751, "pct_active": 22.8, "termination_rate": 12.7, "pct_industry": 9.7}, {"institution": "UCLA", "trials": 1404, "pct_active": 22.2, "termination_rate": 10.6, "pct_industry": 15.5}, {"institution": "UC San Diego", "trials": 831, "pct_active": 24.2, "termination_rate": 9.6, "pct_industry": 13.8}, {"institution": "UC Davis", "trials": 674, "pct_active": 25.1, "termination_rate": 10.5, "pct_industry": 12.3}, {"institution": "USC", "trials": 656, "pct_active": 19.1, "termination_rate": 22.3, "pct_industry": 10.5}, {"institution": "UC Irvine", "trials": 345, "pct_active": 29.3, "termination_rate": 12.6, "pct_industry": 14.8}], "growth": [{"institution": "UC Irvine", "avg_per_year_2010_15": 8.7, "avg_per_year_2020_25": 19.8, "pct_change": 128.8}, {"institution": "Stanford", "avg_per_year_2010_15": 54.5, "avg_per_year_2020_25": 99.8, "pct_change": 83.2}, {"institution": "UC Davis", "avg_per_year_2010_15": 20.5, "avg_per_year_2020_25": 36.8, "pct_change": 79.7}, {"institution": "USC", "avg_per_year_2010_15": 22.2, "avg_per_year_2020_25": 36.3, "pct_change": 63.9}, {"institution": "UCLA", "avg_per_year_2010_15": 47.0, "avg_per_year_2020_25": 73.8, "pct_change": 57.1}, {"institution": "UC San Diego", "avg_per_year_2010_15": 33.8, "avg_per_year_2020_25": 47.7, "pct_change": 40.9}, {"institution": "UCSF", "avg_per_year_2010_15": 71.2, "avg_per_year_2020_25": 88.3, "pct_change": 24.1}], "termination": [{"institution": "USC", "actual_pct": 25.1, "expected_pct": 15.4, "actual_vs_expected": 1.63}, {"institution": "UCSF", "actual_pct": 12.4, "expected_pct": 12.3, "actual_vs_expected": 1.01}, {"institution": "Stanford", "actual_pct": 13.3, "expected_pct": 13.4, "actual_vs_expected": 0.99}, {"institution": "UC Irvine", "actual_pct": 14.0, "expected_pct": 14.6, "actual_vs_expected": 0.96}, {"institution": "UC San Diego", "actual_pct": 9.7, "expected_pct": 11.4, "actual_vs_expected": 0.85}, {"institution": "UCLA", "actual_pct": 10.9, "expected_pct": 13.0, "actual_vs_expected": 0.84}, {"institution": "UC Davis", "actual_pct": 10.7, "expected_pct": 12.7, "actual_vs_expected": 0.84}], "stop_reasons": [{"institution": "UCLA", "stop_reason": "Practice changed", "n": 1, "pct": 1.0}, {"institution": "UCLA", "stop_reason": "Funding/resources", "n": 7, "pct": 7.3}, {"institution": "UCLA", "stop_reason": "COVID-19", "n": 7, "pct": 7.3}, {"institution": "UCSF", "stop_reason": "Safety/efficacy", "n": 18, "pct": 10.9}, {"institution": "UCSF", "stop_reason": "Low enrollment", "n": 73, "pct": 44.2}, {"institution": "UCSF", "stop_reason": "Not stated", "n": 7, "pct": 4.2}, {"institution": "UCSF", "stop_reason": "Other", "n": 16, "pct": 9.7}, {"institution": "UCSF", "stop_reason": "Sponsor/drug supply", "n": 7, "pct": 4.2}, {"institution": "UC San Diego", "stop_reason": "Funding/resources", "n": 13, "pct": 25.0}, {"institution": "UC San Diego", "stop_reason": "COVID-19", "n": 3, "pct": 5.8}, {"institution": "UC San Diego", "stop_reason": "PI left", "n": 3, "pct": 5.8}, {"institution": "UC San Diego", "stop_reason": "Practice changed", "n": 1, "pct": 1.9}, {"institution": "UC Irvine", "stop_reason": "Funding/resources", "n": 5, "pct": 20.0}, {"institution": "UC Davis", "stop_reason": "PI left", "n": 5, "pct": 10.2}, {"institution": "UC Davis", "stop_reason": "COVID-19", "n": 3, "pct": 6.1}, {"institution": "UC Davis", "stop_reason": "Practice changed", "n": 2, "pct": 4.1}, {"institution": "UC Davis", "stop_reason": "Funding/resources", "n": 6, "pct": 12.2}, {"institution": "Stanford", "stop_reason": "Funding/resources", "n": 18, "pct": 12.3}, {"institution": "Stanford", "stop_reason": "PI left", "n": 5, "pct": 3.4}, {"institution": "Stanford", "stop_reason": "COVID-19", "n": 10, "pct": 6.8}, {"institution": "Stanford", "stop_reason": "Practice changed", "n": 3, "pct": 2.1}, {"institution": "USC", "stop_reason": "Funding/resources", "n": 9, "pct": 9.7}, {"institution": "USC", "stop_reason": "Practice changed", "n": 4, "pct": 4.3}, {"institution": "USC", "stop_reason": "PI left", "n": 7, "pct": 7.5}, {"institution": "USC", "stop_reason": "COVID-19", "n": 3, "pct": 3.2}, {"institution": "UCLA", "stop_reason": "Low enrollment", "n": 61, "pct": 63.5}, {"institution": "UCLA", "stop_reason": "Other", "n": 5, "pct": 5.2}, {"institution": "UCLA", "stop_reason": "Not stated", "n": 6, "pct": 6.2}, {"institution": "UCLA", "stop_reason": "Safety/efficacy", "n": 6, "pct": 6.2}, {"institution": "UCLA", "stop_reason": "Sponsor/drug supply", "n": 3, "pct": 3.1}, {"institution": "UCSF", "stop_reason": "Funding/resources", "n": 18, "pct": 10.9}, {"institution": "UCSF", "stop_reason": "PI left", "n": 8, "pct": 4.8}, {"institution": "UCSF", "stop_reason": "Practice changed", "n": 9, "pct": 5.5}, {"institution": "UCSF", "stop_reason": "COVID-19", "n": 9, "pct": 5.5}, {"institution": "UC San Diego", "stop_reason": "Other", "n": 7, "pct": 13.5}, {"institution": "UC San Diego", "stop_reason": "Sponsor/drug supply", "n": 3, "pct": 5.8}, {"institution": "UC San Diego", "stop_reason": "Low enrollment", "n": 19, "pct": 36.5}, {"institution": "UC San Diego", "stop_reason": "Not stated", "n": 2, "pct": 3.8}, {"institution": "UC San Diego", "stop_reason": "Safety/efficacy", "n": 1, "pct": 1.9}, {"institution": "UC Irvine", "stop_reason": "Low enrollment", "n": 17, "pct": 68.0}, {"institution": "UC Irvine", "stop_reason": "Other", "n": 2, "pct": 8.0}, {"institution": "UC Irvine", "stop_reason": "Sponsor/drug supply", "n": 1, "pct": 4.0}, {"institution": "UC Davis", "stop_reason": "Low enrollment", "n": 24, "pct": 49.0}, {"institution": "UC Davis", "stop_reason": "Sponsor/drug supply", "n": 3, "pct": 6.1}, {"institution": "UC Davis", "stop_reason": "Safety/efficacy", "n": 4, "pct": 8.2}, {"institution": "UC Davis", "stop_reason": "Other", "n": 1, "pct": 2.0}, {"institution": "UC Davis", "stop_reason": "Not stated", "n": 1, "pct": 2.0}, {"institution": "Stanford", "stop_reason": "Sponsor/drug supply", "n": 10, "pct": 6.8}, {"institution": "Stanford", "stop_reason": "Low enrollment", "n": 69, "pct": 47.3}, {"institution": "Stanford", "stop_reason": "Safety/efficacy", "n": 8, "pct": 5.5}, {"institution": "Stanford", "stop_reason": "Other", "n": 16, "pct": 11.0}, {"institution": "Stanford", "stop_reason": "Not stated", "n": 7, "pct": 4.8}, {"institution": "USC", "stop_reason": "Low enrollment", "n": 47, "pct": 50.5}, {"institution": "USC", "stop_reason": "Other", "n": 11, "pct": 11.8}, {"institution": "USC", "stop_reason": "Sponsor/drug supply", "n": 7, "pct": 7.5}, {"institution": "USC", "stop_reason": "Safety/efficacy", "n": 5, "pct": 5.4}], "trend": [{"institution": "Stanford", "start_year": 2010, "new_trials": 60}, {"institution": "Stanford", "start_year": 2011, "new_trials": 49}, {"institution": "Stanford", "start_year": 2012, "new_trials": 53}, {"institution": "Stanford", "start_year": 2013, "new_trials": 46}, {"institution": "Stanford", "start_year": 2014, "new_trials": 57}, {"institution": "Stanford", "start_year": 2015, "new_trials": 62}, {"institution": "Stanford", "start_year": 2016, "new_trials": 73}, {"institution": "Stanford", "start_year": 2017, "new_trials": 75}, {"institution": "Stanford", "start_year": 2018, "new_trials": 77}, {"institution": "Stanford", "start_year": 2019, "new_trials": 98}, {"institution": "Stanford", "start_year": 2020, "new_trials": 85}, {"institution": "Stanford", "start_year": 2021, "new_trials": 105}, {"institution": "Stanford", "start_year": 2022, "new_trials": 85}, {"institution": "Stanford", "start_year": 2023, "new_trials": 111}, {"institution": "Stanford", "start_year": 2024, "new_trials": 91}, {"institution": "Stanford", "start_year": 2025, "new_trials": 122}, {"institution": "UC Davis", "start_year": 2010, "new_trials": 23}, {"institution": "UC Davis", "start_year": 2011, "new_trials": 11}, {"institution": "UC Davis", "start_year": 2012, "new_trials": 20}, {"institution": "UC Davis", "start_year": 2013, "new_trials": 22}, {"institution": "UC Davis", "start_year": 2014, "new_trials": 24}, {"institution": "UC Davis", "start_year": 2015, "new_trials": 23}, {"institution": "UC Davis", "start_year": 2016, "new_trials": 41}, {"institution": "UC Davis", "start_year": 2017, "new_trials": 53}, {"institution": "UC Davis", "start_year": 2018, "new_trials": 36}, {"institution": "UC Davis", "start_year": 2019, "new_trials": 38}, {"institution": "UC Davis", "start_year": 2020, "new_trials": 33}, {"institution": "UC Davis", "start_year": 2021, "new_trials": 44}, {"institution": "UC Davis", "start_year": 2022, "new_trials": 34}, {"institution": "UC Davis", "start_year": 2023, "new_trials": 43}, {"institution": "UC Davis", "start_year": 2024, "new_trials": 33}, {"institution": "UC Davis", "start_year": 2025, "new_trials": 34}, {"institution": "UC Irvine", "start_year": 2010, "new_trials": 5}, {"institution": "UC Irvine", "start_year": 2011, "new_trials": 11}, {"institution": "UC Irvine", "start_year": 2012, "new_trials": 11}, {"institution": "UC Irvine", "start_year": 2013, "new_trials": 8}, {"institution": "UC Irvine", "start_year": 2014, "new_trials": 7}, {"institution": "UC Irvine", "start_year": 2015, "new_trials": 10}, {"institution": "UC Irvine", "start_year": 2016, "new_trials": 8}, {"institution": "UC Irvine", "start_year": 2017, "new_trials": 19}, {"institution": "UC Irvine", "start_year": 2018, "new_trials": 14}, {"institution": "UC Irvine", "start_year": 2019, "new_trials": 14}, {"institution": "UC Irvine", "start_year": 2020, "new_trials": 16}, {"institution": "UC Irvine", "start_year": 2021, "new_trials": 19}, {"institution": "UC Irvine", "start_year": 2022, "new_trials": 17}, {"institution": "UC Irvine", "start_year": 2023, "new_trials": 17}, {"institution": "UC Irvine", "start_year": 2024, "new_trials": 24}, {"institution": "UC Irvine", "start_year": 2025, "new_trials": 26}, {"institution": "UC San Diego", "start_year": 2010, "new_trials": 32}, {"institution": "UC San Diego", "start_year": 2011, "new_trials": 33}, {"institution": "UC San Diego", "start_year": 2012, "new_trials": 28}, {"institution": "UC San Diego", "start_year": 2013, "new_trials": 32}, {"institution": "UC San Diego", "start_year": 2014, "new_trials": 44}, {"institution": "UC San Diego", "start_year": 2015, "new_trials": 34}, {"institution": "UC San Diego", "start_year": 2016, "new_trials": 41}, {"institution": "UC San Diego", "start_year": 2017, "new_trials": 30}, {"institution": "UC San Diego", "start_year": 2018, "new_trials": 52}, {"institution": "UC San Diego", "start_year": 2019, "new_trials": 30}, {"institution": "UC San Diego", "start_year": 2020, "new_trials": 32}, {"institution": "UC San Diego", "start_year": 2021, "new_trials": 54}, {"institution": "UC San Diego", "start_year": 2022, "new_trials": 47}, {"institution": "UC San Diego", "start_year": 2023, "new_trials": 42}, {"institution": "UC San Diego", "start_year": 2024, "new_trials": 53}, {"institution": "UC San Diego", "start_year": 2025, "new_trials": 58}, {"institution": "UCLA", "start_year": 2010, "new_trials": 37}, {"institution": "UCLA", "start_year": 2011, "new_trials": 46}, {"institution": "UCLA", "start_year": 2012, "new_trials": 57}, {"institution": "UCLA", "start_year": 2013, "new_trials": 49}, {"institution": "UCLA", "start_year": 2014, "new_trials": 48}, {"institution": "UCLA", "start_year": 2015, "new_trials": 45}, {"institution": "UCLA", "start_year": 2016, "new_trials": 47}, {"institution": "UCLA", "start_year": 2017, "new_trials": 60}, {"institution": "UCLA", "start_year": 2018, "new_trials": 78}, {"institution": "UCLA", "start_year": 2019, "new_trials": 77}, {"institution": "UCLA", "start_year": 2020, "new_trials": 75}, {"institution": "UCLA", "start_year": 2021, "new_trials": 76}, {"institution": "UCLA", "start_year": 2022, "new_trials": 77}, {"institution": "UCLA", "start_year": 2023, "new_trials": 77}, {"institution": "UCLA", "start_year": 2024, "new_trials": 63}, {"institution": "UCLA", "start_year": 2025, "new_trials": 75}, {"institution": "UCSF", "start_year": 2010, "new_trials": 70}, {"institution": "UCSF", "start_year": 2011, "new_trials": 53}, {"institution": "UCSF", "start_year": 2012, "new_trials": 67}, {"institution": "UCSF", "start_year": 2013, "new_trials": 74}, {"institution": "UCSF", "start_year": 2014, "new_trials": 79}, {"institution": "UCSF", "start_year": 2015, "new_trials": 84}, {"institution": "UCSF", "start_year": 2016, "new_trials": 105}, {"institution": "UCSF", "start_year": 2017, "new_trials": 78}, {"institution": "UCSF", "start_year": 2018, "new_trials": 93}, {"institution": "UCSF", "start_year": 2019, "new_trials": 87}, {"institution": "UCSF", "start_year": 2020, "new_trials": 75}, {"institution": "UCSF", "start_year": 2021, "new_trials": 86}, {"institution": "UCSF", "start_year": 2022, "new_trials": 82}, {"institution": "UCSF", "start_year": 2023, "new_trials": 102}, {"institution": "UCSF", "start_year": 2024, "new_trials": 92}, {"institution": "UCSF", "start_year": 2025, "new_trials": 93}, {"institution": "USC", "start_year": 2010, "new_trials": 16}, {"institution": "USC", "start_year": 2011, "new_trials": 20}, {"institution": "USC", "start_year": 2012, "new_trials": 23}, {"institution": "USC", "start_year": 2013, "new_trials": 21}, {"institution": "USC", "start_year": 2014, "new_trials": 30}, {"institution": "USC", "start_year": 2015, "new_trials": 23}, {"institution": "USC", "start_year": 2016, "new_trials": 28}, {"institution": "USC", "start_year": 2017, "new_trials": 40}, {"institution": "USC", "start_year": 2018, "new_trials": 39}, {"institution": "USC", "start_year": 2019, "new_trials": 39}, {"institution": "USC", "start_year": 2020, "new_trials": 28}, {"institution": "USC", "start_year": 2021, "new_trials": 50}, {"institution": "USC", "start_year": 2022, "new_trials": 32}, {"institution": "USC", "start_year": 2023, "new_trials": 41}, {"institution": "USC", "start_year": 2024, "new_trials": 38}, {"institution": "USC", "start_year": 2025, "new_trials": 29}], "area_benchmark": [{"institution": "Stanford", "therapeutic_area": "Behavioral & lifestyle", "trials": 58, "share_pct": 3.3, "peer_avg_pct": 3.6, "diff_vs_peers_pts": -0.3}, {"institution": "Stanford", "therapeutic_area": "Blood", "trials": 10, "share_pct": 0.6, "peer_avg_pct": 0.3, "diff_vs_peers_pts": 0.2}, {"institution": "Stanford", "therapeutic_area": "Cardiovascular", "trials": 102, "share_pct": 5.8, "peer_avg_pct": 4.8, "diff_vs_peers_pts": 1.0}, {"institution": "Stanford", "therapeutic_area": "Dental & oral", "trials": 1, "share_pct": 0.1, "peer_avg_pct": 0.3, "diff_vs_peers_pts": -0.3}, {"institution": "Stanford", "therapeutic_area": "Digestive", "trials": 38, "share_pct": 2.2, "peer_avg_pct": 1.5, "diff_vs_peers_pts": 0.7}, {"institution": "Stanford", "therapeutic_area": "Eye", "trials": 33, "share_pct": 1.9, "peer_avg_pct": 0.7, "diff_vs_peers_pts": 1.2}, {"institution": "Stanford", "therapeutic_area": "Healthy volunteers", "trials": 21, "share_pct": 1.2, "peer_avg_pct": 1.9, "diff_vs_peers_pts": -0.8}, {"institution": "Stanford", "therapeutic_area": "Immunology", "trials": 28, "share_pct": 1.6, "peer_avg_pct": 1.3, "diff_vs_peers_pts": 0.3}, {"institution": "Stanford", "therapeutic_area": "Infectious disease", "trials": 81, "share_pct": 4.6, "peer_avg_pct": 7.2, "diff_vs_peers_pts": -2.6}, {"institution": "Stanford", "therapeutic_area": "Injury & trauma", "trials": 21, "share_pct": 1.2, "peer_avg_pct": 0.9, "diff_vs_peers_pts": 0.3}, {"institution": "Stanford", "therapeutic_area": "Kidney & urologic", "trials": 21, "share_pct": 1.2, "peer_avg_pct": 1.6, "diff_vs_peers_pts": -0.4}, {"institution": "Stanford", "therapeutic_area": "Mental health", "trials": 224, "share_pct": 12.8, "peer_avg_pct": 9.3, "diff_vs_peers_pts": 3.5}, {"institution": "Stanford", "therapeutic_area": "Metabolic & endocrine", "trials": 131, "share_pct": 7.5, "peer_avg_pct": 7.4, "diff_vs_peers_pts": 0.0}, {"institution": "Stanford", "therapeutic_area": "Musculoskeletal", "trials": 27, "share_pct": 1.5, "peer_avg_pct": 1.2, "diff_vs_peers_pts": 0.3}, {"institution": "Stanford", "therapeutic_area": "Neurology", "trials": 206, "share_pct": 11.8, "peer_avg_pct": 10.7, "diff_vs_peers_pts": 1.1}, {"institution": "Stanford", "therapeutic_area": "Oncology", "trials": 321, "share_pct": 18.3, "peer_avg_pct": 23.9, "diff_vs_peers_pts": -5.6}, {"institution": "Stanford", "therapeutic_area": "Other / unclassified", "trials": 247, "share_pct": 14.1, "peer_avg_pct": 13.1, "diff_vs_peers_pts": 1.0}, {"institution": "Stanford", "therapeutic_area": "Pain", "trials": 62, "share_pct": 3.5, "peer_avg_pct": 2.0, "diff_vs_peers_pts": 1.5}, {"institution": "Stanford", "therapeutic_area": "Respiratory", "trials": 28, "share_pct": 1.6, "peer_avg_pct": 0.7, "diff_vs_peers_pts": 0.9}, {"institution": "Stanford", "therapeutic_area": "Skin", "trials": 20, "share_pct": 1.1, "peer_avg_pct": 2.1, "diff_vs_peers_pts": -0.9}, {"institution": "Stanford", "therapeutic_area": "Substance use", "trials": 36, "share_pct": 2.1, "peer_avg_pct": 3.2, "diff_vs_peers_pts": -1.2}, {"institution": "Stanford", "therapeutic_area": "Women's health", "trials": 35, "share_pct": 2.0, "peer_avg_pct": 1.9, "diff_vs_peers_pts": 0.1}, {"institution": "UC Davis", "therapeutic_area": "Behavioral & lifestyle", "trials": 26, "share_pct": 3.9, "peer_avg_pct": 3.5, "diff_vs_peers_pts": 0.3}, {"institution": "UC Davis", "therapeutic_area": "Blood", "trials": 2, "share_pct": 0.3, "peer_avg_pct": 0.4, "diff_vs_peers_pts": -0.1}, {"institution": "UC Davis", "therapeutic_area": "Cardiovascular", "trials": 34, "share_pct": 5.0, "peer_avg_pct": 4.9, "diff_vs_peers_pts": 0.1}, {"institution": "UC Davis", "therapeutic_area": "Dental & oral", "trials": 0, "share_pct": 0.0, "peer_avg_pct": 0.3, "diff_vs_peers_pts": -0.3}, {"institution": "UC Davis", "therapeutic_area": "Digestive", "trials": 9, "share_pct": 1.3, "peer_avg_pct": 1.6, "diff_vs_peers_pts": -0.3}, {"institution": "UC Davis", "therapeutic_area": "Eye", "trials": 4, "share_pct": 0.6, "peer_avg_pct": 0.9, "diff_vs_peers_pts": -0.4}, {"institution": "UC Davis", "therapeutic_area": "Healthy volunteers", "trials": 32, "share_pct": 4.7, "peer_avg_pct": 1.4, "diff_vs_peers_pts": 3.4}, {"institution": "UC Davis", "therapeutic_area": "Immunology", "trials": 15, "share_pct": 2.2, "peer_avg_pct": 1.2, "diff_vs_peers_pts": 1.0}, {"institution": "UC Davis", "therapeutic_area": "Infectious disease", "trials": 29, "share_pct": 4.3, "peer_avg_pct": 7.3, "diff_vs_peers_pts": -3.0}, {"institution": "UC Davis", "therapeutic_area": "Injury & trauma", "trials": 12, "share_pct": 1.8, "peer_avg_pct": 0.8, "diff_vs_peers_pts": 1.0}, {"institution": "UC Davis", "therapeutic_area": "Kidney & urologic", "trials": 0, "share_pct": 0.0, "peer_avg_pct": 1.8, "diff_vs_peers_pts": -1.8}, {"institution": "UC Davis", "therapeutic_area": "Mental health", "trials": 45, "share_pct": 6.7, "peer_avg_pct": 10.3, "diff_vs_peers_pts": -3.6}, {"institution": "UC Davis", "therapeutic_area": "Metabolic & endocrine", "trials": 71, "share_pct": 10.5, "peer_avg_pct": 6.9, "diff_vs_peers_pts": 3.6}, {"institution": "UC Davis", "therapeutic_area": "Musculoskeletal", "trials": 14, "share_pct": 2.1, "peer_avg_pct": 1.1, "diff_vs_peers_pts": 0.9}, {"institution": "UC Davis", "therapeutic_area": "Neurology", "trials": 49, "share_pct": 7.3, "peer_avg_pct": 11.4, "diff_vs_peers_pts": -4.1}, {"institution": "UC Davis", "therapeutic_area": "Oncology", "trials": 143, "share_pct": 21.2, "peer_avg_pct": 23.5, "diff_vs_peers_pts": -2.2}, {"institution": "UC Davis", "therapeutic_area": "Other / unclassified", "trials": 131, "share_pct": 19.4, "peer_avg_pct": 12.2, "diff_vs_peers_pts": 7.2}, {"institution": "UC Davis", "therapeutic_area": "Pain", "trials": 15, "share_pct": 2.2, "peer_avg_pct": 2.2, "diff_vs_peers_pts": 0.0}, {"institution": "UC Davis", "therapeutic_area": "Respiratory", "trials": 4, "share_pct": 0.6, "peer_avg_pct": 0.9, "diff_vs_peers_pts": -0.3}, {"institution": "UC Davis", "therapeutic_area": "Skin", "trials": 20, "share_pct": 3.0, "peer_avg_pct": 1.8, "diff_vs_peers_pts": 1.2}, {"institution": "UC Davis", "therapeutic_area": "Substance use", "trials": 8, "share_pct": 1.2, "peer_avg_pct": 3.4, "diff_vs_peers_pts": -2.2}, {"institution": "UC Davis", "therapeutic_area": "Women's health", "trials": 11, "share_pct": 1.6, "peer_avg_pct": 2.0, "diff_vs_peers_pts": -0.4}, {"institution": "UC Irvine", "therapeutic_area": "Behavioral & lifestyle", "trials": 4, "share_pct": 1.2, "peer_avg_pct": 4.0, "diff_vs_peers_pts": -2.8}, {"institution": "UC Irvine", "therapeutic_area": "Blood", "trials": 3, "share_pct": 0.9, "peer_avg_pct": 0.3, "diff_vs_peers_pts": 0.6}, {"institution": "UC Irvine", "therapeutic_area": "Cardiovascular", "trials": 11, "share_pct": 3.2, "peer_avg_pct": 5.2, "diff_vs_peers_pts": -2.0}, {"institution": "UC Irvine", "therapeutic_area": "Dental & oral", "trials": 0, "share_pct": 0.0, "peer_avg_pct": 0.3, "diff_vs_peers_pts": -0.3}, {"institution": "UC Irvine", "therapeutic_area": "Digestive", "trials": 4, "share_pct": 1.2, "peer_avg_pct": 1.6, "diff_vs_peers_pts": -0.5}, {"institution": "UC Irvine", "therapeutic_area": "Eye", "trials": 0, "share_pct": 0.0, "peer_avg_pct": 1.0, "diff_vs_peers_pts": -1.0}, {"institution": "UC Irvine", "therapeutic_area": "Healthy volunteers", "trials": 3, "share_pct": 0.9, "peer_avg_pct": 2.0, "diff_vs_peers_pts": -1.1}, {"institution": "UC Irvine", "therapeutic_area": "Immunology", "trials": 2, "share_pct": 0.6, "peer_avg_pct": 1.5, "diff_vs_peers_pts": -0.9}, {"institution": "UC Irvine", "therapeutic_area": "Infectious disease", "trials": 17, "share_pct": 4.9, "peer_avg_pct": 7.2, "diff_vs_peers_pts": -2.3}, {"institution": "UC Irvine", "therapeutic_area": "Injury & trauma", "trials": 1, "share_pct": 0.3, "peer_avg_pct": 1.1, "diff_vs_peers_pts": -0.8}, {"institution": "UC Irvine", "therapeutic_area": "Kidney & urologic", "trials": 10, "share_pct": 2.9, "peer_avg_pct": 1.3, "diff_vs_peers_pts": 1.6}, {"institution": "UC Irvine", "therapeutic_area": "Mental health", "trials": 22, "share_pct": 6.4, "peer_avg_pct": 10.4, "diff_vs_peers_pts": -4.0}, {"institution": "UC Irvine", "therapeutic_area": "Metabolic & endocrine", "trials": 22, "share_pct": 6.4, "peer_avg_pct": 7.6, "diff_vs_peers_pts": -1.3}, {"institution": "UC Irvine", "therapeutic_area": "Musculoskeletal", "trials": 1, "share_pct": 0.3, "peer_avg_pct": 1.4, "diff_vs_peers_pts": -1.2}, {"institution": "UC Irvine", "therapeutic_area": "Neurology", "trials": 44, "share_pct": 12.8, "peer_avg_pct": 10.5, "diff_vs_peers_pts": 2.2}, {"institution": "UC Irvine", "therapeutic_area": "Oncology", "trials": 107, "share_pct": 31.0, "peer_avg_pct": 21.8, "diff_vs_peers_pts": 9.2}, {"institution": "UC Irvine", "therapeutic_area": "Other / unclassified", "trials": 56, "share_pct": 16.2, "peer_avg_pct": 12.8, "diff_vs_peers_pts": 3.5}, {"institution": "UC Irvine", "therapeutic_area": "Pain", "trials": 9, "share_pct": 2.6, "peer_avg_pct": 2.2, "diff_vs_peers_pts": 0.4}, {"institution": "UC Irvine", "therapeutic_area": "Respiratory", "trials": 1, "share_pct": 0.3, "peer_avg_pct": 0.9, "diff_vs_peers_pts": -0.6}, {"institution": "UC Irvine", "therapeutic_area": "Skin", "trials": 20, "share_pct": 5.8, "peer_avg_pct": 1.3, "diff_vs_peers_pts": 4.5}, {"institution": "UC Irvine", "therapeutic_area": "Substance use", "trials": 2, "share_pct": 0.6, "peer_avg_pct": 3.5, "diff_vs_peers_pts": -2.9}, {"institution": "UC Irvine", "therapeutic_area": "Women's health", "trials": 6, "share_pct": 1.7, "peer_avg_pct": 2.0, "diff_vs_peers_pts": -0.2}, {"institution": "UC San Diego", "therapeutic_area": "Behavioral & lifestyle", "trials": 43, "share_pct": 5.2, "peer_avg_pct": 3.3, "diff_vs_peers_pts": 1.9}, {"institution": "UC San Diego", "therapeutic_area": "Blood", "trials": 1, "share_pct": 0.1, "peer_avg_pct": 0.4, "diff_vs_peers_pts": -0.3}, {"institution": "UC San Diego", "therapeutic_area": "Cardiovascular", "trials": 54, "share_pct": 6.5, "peer_avg_pct": 4.7, "diff_vs_peers_pts": 1.8}, {"institution": "UC San Diego", "therapeutic_area": "Dental & oral", "trials": 0, "share_pct": 0.0, "peer_avg_pct": 0.3, "diff_vs_peers_pts": -0.3}, {"institution": "UC San Diego", "therapeutic_area": "Digestive", "trials": 7, "share_pct": 0.8, "peer_avg_pct": 1.7, "diff_vs_peers_pts": -0.9}, {"institution": "UC San Diego", "therapeutic_area": "Eye", "trials": 13, "share_pct": 1.6, "peer_avg_pct": 0.8, "diff_vs_peers_pts": 0.8}, {"institution": "UC San Diego", "therapeutic_area": "Healthy volunteers", "trials": 16, "share_pct": 1.9, "peer_avg_pct": 1.8, "diff_vs_peers_pts": 0.1}, {"institution": "UC San Diego", "therapeutic_area": "Immunology", "trials": 10, "share_pct": 1.2, "peer_avg_pct": 1.4, "diff_vs_peers_pts": -0.2}, {"institution": "UC San Diego", "therapeutic_area": "Infectious disease", "trials": 62, "share_pct": 7.5, "peer_avg_pct": 6.8, "diff_vs_peers_pts": 0.7}, {"institution": "UC San Diego", "therapeutic_area": "Injury & trauma", "trials": 8, "share_pct": 1.0, "peer_avg_pct": 1.0, "diff_vs_peers_pts": 0.0}, {"institution": "UC San Diego", "therapeutic_area": "Kidney & urologic", "trials": 15, "share_pct": 1.8, "peer_avg_pct": 1.5, "diff_vs_peers_pts": 0.3}, {"institution": "UC San Diego", "therapeutic_area": "Mental health", "trials": 121, "share_pct": 14.6, "peer_avg_pct": 9.0, "diff_vs_peers_pts": 5.6}, {"institution": "UC San Diego", "therapeutic_area": "Metabolic & endocrine", "trials": 85, "share_pct": 10.2, "peer_avg_pct": 7.0, "diff_vs_peers_pts": 3.2}, {"institution": "UC San Diego", "therapeutic_area": "Musculoskeletal", "trials": 14, "share_pct": 1.7, "peer_avg_pct": 1.2, "diff_vs_peers_pts": 0.5}, {"institution": "UC San Diego", "therapeutic_area": "Neurology", "trials": 96, "share_pct": 11.6, "peer_avg_pct": 10.7, "diff_vs_peers_pts": 0.8}, {"institution": "UC San Diego", "therapeutic_area": "Oncology", "trials": 112, "share_pct": 13.5, "peer_avg_pct": 24.8, "diff_vs_peers_pts": -11.3}, {"institution": "UC San Diego", "therapeutic_area": "Other / unclassified", "trials": 76, "share_pct": 9.1, "peer_avg_pct": 13.9, "diff_vs_peers_pts": -4.8}, {"institution": "UC San Diego", "therapeutic_area": "Pain", "trials": 38, "share_pct": 4.6, "peer_avg_pct": 1.9, "diff_vs_peers_pts": 2.7}, {"institution": "UC San Diego", "therapeutic_area": "Respiratory", "trials": 6, "share_pct": 0.7, "peer_avg_pct": 0.8, "diff_vs_peers_pts": -0.1}, {"institution": "UC San Diego", "therapeutic_area": "Skin", "trials": 6, "share_pct": 0.7, "peer_avg_pct": 2.1, "diff_vs_peers_pts": -1.4}, {"institution": "UC San Diego", "therapeutic_area": "Substance use", "trials": 21, "share_pct": 2.5, "peer_avg_pct": 3.1, "diff_vs_peers_pts": -0.6}, {"institution": "UC San Diego", "therapeutic_area": "Women's health", "trials": 27, "share_pct": 3.2, "peer_avg_pct": 1.7, "diff_vs_peers_pts": 1.5}, {"institution": "UCLA", "therapeutic_area": "Behavioral & lifestyle", "trials": 34, "share_pct": 2.4, "peer_avg_pct": 3.8, "diff_vs_peers_pts": -1.4}, {"institution": "UCLA", "therapeutic_area": "Blood", "trials": 3, "share_pct": 0.2, "peer_avg_pct": 0.4, "diff_vs_peers_pts": -0.2}, {"institution": "UCLA", "therapeutic_area": "Cardiovascular", "trials": 57, "share_pct": 4.1, "peer_avg_pct": 5.1, "diff_vs_peers_pts": -1.0}, {"institution": "UCLA", "therapeutic_area": "Dental & oral", "trials": 9, "share_pct": 0.6, "peer_avg_pct": 0.2, "diff_vs_peers_pts": 0.4}, {"institution": "UCLA", "therapeutic_area": "Digestive", "trials": 20, "share_pct": 1.4, "peer_avg_pct": 1.6, "diff_vs_peers_pts": -0.2}, {"institution": "UCLA", "therapeutic_area": "Eye", "trials": 7, "share_pct": 0.5, "peer_avg_pct": 1.0, "diff_vs_peers_pts": -0.5}, {"institution": "UCLA", "therapeutic_area": "Healthy volunteers", "trials": 12, "share_pct": 0.9, "peer_avg_pct": 2.0, "diff_vs_peers_pts": -1.2}, {"institution": "UCLA", "therapeutic_area": "Immunology", "trials": 20, "share_pct": 1.4, "peer_avg_pct": 1.4, "diff_vs_peers_pts": 0.1}, {"institution": "UCLA", "therapeutic_area": "Infectious disease", "trials": 120, "share_pct": 8.5, "peer_avg_pct": 6.6, "diff_vs_peers_pts": 2.0}, {"institution": "UCLA", "therapeutic_area": "Injury & trauma", "trials": 6, "share_pct": 0.4, "peer_avg_pct": 1.0, "diff_vs_peers_pts": -0.6}, {"institution": "UCLA", "therapeutic_area": "Kidney & urologic", "trials": 13, "share_pct": 0.9, "peer_avg_pct": 1.7, "diff_vs_peers_pts": -0.7}, {"institution": "UCLA", "therapeutic_area": "Mental health", "trials": 201, "share_pct": 14.3, "peer_avg_pct": 9.1, "diff_vs_peers_pts": 5.3}, {"institution": "UCLA", "therapeutic_area": "Metabolic & endocrine", "trials": 65, "share_pct": 4.6, "peer_avg_pct": 7.9, "diff_vs_peers_pts": -3.3}, {"institution": "UCLA", "therapeutic_area": "Musculoskeletal", "trials": 7, "share_pct": 0.5, "peer_avg_pct": 1.4, "diff_vs_peers_pts": -0.9}, {"institution": "UCLA", "therapeutic_area": "Neurology", "trials": 151, "share_pct": 10.8, "peer_avg_pct": 10.8, "diff_vs_peers_pts": -0.1}, {"institution": "UCLA", "therapeutic_area": "Oncology", "trials": 386, "share_pct": 27.5, "peer_avg_pct": 22.4, "diff_vs_peers_pts": 5.1}, {"institution": "UCLA", "therapeutic_area": "Other / unclassified", "trials": 158, "share_pct": 11.3, "peer_avg_pct": 13.6, "diff_vs_peers_pts": -2.3}, {"institution": "UCLA", "therapeutic_area": "Pain", "trials": 9, "share_pct": 0.6, "peer_avg_pct": 2.5, "diff_vs_peers_pts": -1.9}, {"institution": "UCLA", "therapeutic_area": "Respiratory", "trials": 10, "share_pct": 0.7, "peer_avg_pct": 0.8, "diff_vs_peers_pts": -0.1}, {"institution": "UCLA", "therapeutic_area": "Skin", "trials": 11, "share_pct": 0.8, "peer_avg_pct": 2.1, "diff_vs_peers_pts": -1.3}, {"institution": "UCLA", "therapeutic_area": "Substance use", "trials": 95, "share_pct": 6.8, "peer_avg_pct": 2.4, "diff_vs_peers_pts": 4.3}, {"institution": "UCLA", "therapeutic_area": "Women's health", "trials": 10, "share_pct": 0.7, "peer_avg_pct": 2.2, "diff_vs_peers_pts": -1.4}, {"institution": "UCSF", "therapeutic_area": "Behavioral & lifestyle", "trials": 72, "share_pct": 4.0, "peer_avg_pct": 3.5, "diff_vs_peers_pts": 0.5}, {"institution": "UCSF", "therapeutic_area": "Blood", "trials": 5, "share_pct": 0.3, "peer_avg_pct": 0.4, "diff_vs_peers_pts": -0.1}, {"institution": "UCSF", "therapeutic_area": "Cardiovascular", "trials": 118, "share_pct": 6.6, "peer_avg_pct": 4.7, "diff_vs_peers_pts": 1.9}, {"institution": "UCSF", "therapeutic_area": "Dental & oral", "trials": 16, "share_pct": 0.9, "peer_avg_pct": 0.2, "diff_vs_peers_pts": 0.7}, {"institution": "UCSF", "therapeutic_area": "Digestive", "trials": 11, "share_pct": 0.6, "peer_avg_pct": 1.7, "diff_vs_peers_pts": -1.1}, {"institution": "UCSF", "therapeutic_area": "Eye", "trials": 20, "share_pct": 1.1, "peer_avg_pct": 0.9, "diff_vs_peers_pts": 0.3}, {"institution": "UCSF", "therapeutic_area": "Healthy volunteers", "trials": 32, "share_pct": 1.8, "peer_avg_pct": 1.9, "diff_vs_peers_pts": -0.1}, {"institution": "UCSF", "therapeutic_area": "Immunology", "trials": 34, "share_pct": 1.9, "peer_avg_pct": 1.3, "diff_vs_peers_pts": 0.6}, {"institution": "UCSF", "therapeutic_area": "Infectious disease", "trials": 246, "share_pct": 13.7, "peer_avg_pct": 5.7, "diff_vs_peers_pts": 7.9}, {"institution": "UCSF", "therapeutic_area": "Injury & trauma", "trials": 12, "share_pct": 0.7, "peer_avg_pct": 1.0, "diff_vs_peers_pts": -0.3}, {"institution": "UCSF", "therapeutic_area": "Kidney & urologic", "trials": 56, "share_pct": 3.1, "peer_avg_pct": 1.3, "diff_vs_peers_pts": 1.8}, {"institution": "UCSF", "therapeutic_area": "Mental health", "trials": 146, "share_pct": 8.1, "peer_avg_pct": 10.1, "diff_vs_peers_pts": -2.0}, {"institution": "UCSF", "therapeutic_area": "Metabolic & endocrine", "trials": 106, "share_pct": 5.9, "peer_avg_pct": 7.7, "diff_vs_peers_pts": -1.8}, {"institution": "UCSF", "therapeutic_area": "Musculoskeletal", "trials": 16, "share_pct": 0.9, "peer_avg_pct": 1.3, "diff_vs_peers_pts": -0.5}, {"institution": "UCSF", "therapeutic_area": "Neurology", "trials": 171, "share_pct": 9.5, "peer_avg_pct": 11.0, "diff_vs_peers_pts": -1.6}, {"institution": "UCSF", "therapeutic_area": "Oncology", "trials": 321, "share_pct": 17.8, "peer_avg_pct": 24.0, "diff_vs_peers_pts": -6.2}, {"institution": "UCSF", "therapeutic_area": "Other / unclassified", "trials": 229, "share_pct": 12.7, "peer_avg_pct": 13.3, "diff_vs_peers_pts": -0.6}, {"institution": "UCSF", "therapeutic_area": "Pain", "trials": 27, "share_pct": 1.5, "peer_avg_pct": 2.4, "diff_vs_peers_pts": -0.9}, {"institution": "UCSF", "therapeutic_area": "Respiratory", "trials": 23, "share_pct": 1.3, "peer_avg_pct": 0.8, "diff_vs_peers_pts": 0.5}, {"institution": "UCSF", "therapeutic_area": "Skin", "trials": 17, "share_pct": 0.9, "peer_avg_pct": 2.1, "diff_vs_peers_pts": -1.2}, {"institution": "UCSF", "therapeutic_area": "Substance use", "trials": 86, "share_pct": 4.8, "peer_avg_pct": 2.8, "diff_vs_peers_pts": 2.0}, {"institution": "UCSF", "therapeutic_area": "Women's health", "trials": 37, "share_pct": 2.1, "peer_avg_pct": 1.9, "diff_vs_peers_pts": 0.1}, {"institution": "USC", "therapeutic_area": "Behavioral & lifestyle", "trials": 34, "share_pct": 5.2, "peer_avg_pct": 3.3, "diff_vs_peers_pts": 1.9}, {"institution": "USC", "therapeutic_area": "Blood", "trials": 1, "share_pct": 0.2, "peer_avg_pct": 0.4, "diff_vs_peers_pts": -0.2}, {"institution": "USC", "therapeutic_area": "Cardiovascular", "trials": 22, "share_pct": 3.4, "peer_avg_pct": 5.2, "diff_vs_peers_pts": -1.8}, {"institution": "USC", "therapeutic_area": "Dental & oral", "trials": 3, "share_pct": 0.5, "peer_avg_pct": 0.3, "diff_vs_peers_pts": 0.2}, {"institution": "USC", "therapeutic_area": "Digestive", "trials": 23, "share_pct": 3.5, "peer_avg_pct": 1.3, "diff_vs_peers_pts": 2.2}, {"institution": "USC", "therapeutic_area": "Eye", "trials": 4, "share_pct": 0.6, "peer_avg_pct": 0.9, "diff_vs_peers_pts": -0.3}, {"institution": "USC", "therapeutic_area": "Healthy volunteers", "trials": 10, "share_pct": 1.5, "peer_avg_pct": 1.9, "diff_vs_peers_pts": -0.4}, {"institution": "USC", "therapeutic_area": "Immunology", "trials": 4, "share_pct": 0.6, "peer_avg_pct": 1.5, "diff_vs_peers_pts": -0.9}, {"institution": "USC", "therapeutic_area": "Infectious disease", "trials": 30, "share_pct": 4.6, "peer_avg_pct": 7.3, "diff_vs_peers_pts": -2.7}, {"institution": "USC", "therapeutic_area": "Injury & trauma", "trials": 9, "share_pct": 1.4, "peer_avg_pct": 0.9, "diff_vs_peers_pts": 0.5}, {"institution": "USC", "therapeutic_area": "Kidney & urologic", "trials": 6, "share_pct": 0.9, "peer_avg_pct": 1.7, "diff_vs_peers_pts": -0.7}, {"institution": "USC", "therapeutic_area": "Mental health", "trials": 38, "share_pct": 5.8, "peer_avg_pct": 10.5, "diff_vs_peers_pts": -4.7}, {"institution": "USC", "therapeutic_area": "Metabolic & endocrine", "trials": 46, "share_pct": 7.0, "peer_avg_pct": 7.5, "diff_vs_peers_pts": -0.5}, {"institution": "USC", "therapeutic_area": "Musculoskeletal", "trials": 13, "share_pct": 2.0, "peer_avg_pct": 1.2, "diff_vs_peers_pts": 0.8}, {"institution": "USC", "therapeutic_area": "Neurology", "trials": 80, "share_pct": 12.2, "peer_avg_pct": 10.6, "diff_vs_peers_pts": 1.6}, {"institution": "USC", "therapeutic_area": "Oncology", "trials": 214, "share_pct": 32.6, "peer_avg_pct": 21.6, "diff_vs_peers_pts": 11.1}, {"institution": "USC", "therapeutic_area": "Other / unclassified", "trials": 65, "share_pct": 9.9, "peer_avg_pct": 13.8, "diff_vs_peers_pts": -3.9}, {"institution": "USC", "therapeutic_area": "Pain", "trials": 4, "share_pct": 0.6, "peer_avg_pct": 2.5, "diff_vs_peers_pts": -1.9}, {"institution": "USC", "therapeutic_area": "Respiratory", "trials": 4, "share_pct": 0.6, "peer_avg_pct": 0.9, "diff_vs_peers_pts": -0.3}, {"institution": "USC", "therapeutic_area": "Skin", "trials": 8, "share_pct": 1.2, "peer_avg_pct": 2.1, "diff_vs_peers_pts": -0.8}, {"institution": "USC", "therapeutic_area": "Substance use", "trials": 23, "share_pct": 3.5, "peer_avg_pct": 3.0, "diff_vs_peers_pts": 0.5}, {"institution": "USC", "therapeutic_area": "Women's health", "trials": 15, "share_pct": 2.3, "peer_avg_pct": 1.9, "diff_vs_peers_pts": 0.4}], "phase_mix": [{"institution": "Stanford", "Early Phase 1": 2.2, "Not applicable": 63.3, "Phase 1": 7.4, "Phase 1/2": 3.5, "Phase 2": 12.2, "Phase 2/3": 1.3, "Phase 3": 3.5, "Phase 4": 6.5}, {"institution": "UC Davis", "Early Phase 1": 3.3, "Not applicable": 69.1, "Phase 1": 8.9, "Phase 1/2": 3.1, "Phase 2": 7.4, "Phase 2/3": 1.0, "Phase 3": 1.8, "Phase 4": 5.3}, {"institution": "UC Irvine", "Early Phase 1": 4.6, "Not applicable": 56.8, "Phase 1": 9.3, "Phase 1/2": 3.5, "Phase 2": 15.9, "Phase 2/3": 0.3, "Phase 3": 2.3, "Phase 4": 7.2}, {"institution": "UC San Diego", "Early Phase 1": 2.4, "Not applicable": 59.4, "Phase 1": 5.5, "Phase 1/2": 3.9, "Phase 2": 11.8, "Phase 2/3": 1.6, "Phase 3": 3.1, "Phase 4": 12.3}, {"institution": "UCLA", "Early Phase 1": 4.2, "Not applicable": 53.6, "Phase 1": 10.0, "Phase 1/2": 4.8, "Phase 2": 15.7, "Phase 2/3": 1.1, "Phase 3": 3.8, "Phase 4": 7.0}, {"institution": "UCSF", "Early Phase 1": 1.4, "Not applicable": 62.1, "Phase 1": 7.9, "Phase 1/2": 2.8, "Phase 2": 9.7, "Phase 2/3": 1.3, "Phase 3": 3.7, "Phase 4": 11.0}, {"institution": "USC", "Early Phase 1": 2.0, "Not applicable": 60.7, "Phase 1": 9.8, "Phase 1/2": 4.6, "Phase 2": 15.2, "Phase 2/3": 0.5, "Phase 3": 2.1, "Phase 4": 5.2}], "intervention_mix": [{"institution": "Stanford", "BEHAVIORAL": 24.1, "BIOLOGICAL": 3.4, "COMBINATION_PRODUCT": 0.1, "DEVICE": 15.7, "DIAGNOSTIC_TEST": 1.2, "DIETARY_SUPPLEMENT": 1.4, "DRUG": 28.5, "GENETIC": 0.1, "OTHER": 14.5, "PROCEDURE": 8.6, "RADIATION": 2.5}, {"institution": "UC Davis", "BEHAVIORAL": 16.2, "BIOLOGICAL": 3.3, "COMBINATION_PRODUCT": 0.3, "DEVICE": 9.8, "DIAGNOSTIC_TEST": 1.5, "DIETARY_SUPPLEMENT": 10.2, "DRUG": 22.8, "GENETIC": 0.4, "OTHER": 24.5, "PROCEDURE": 8.7, "RADIATION": 2.4}, {"institution": "UC Irvine", "BEHAVIORAL": 19.9, "BIOLOGICAL": 1.5, "COMBINATION_PRODUCT": 1.0, "DEVICE": 15.3, "DIAGNOSTIC_TEST": 2.2, "DIETARY_SUPPLEMENT": 1.5, "DRUG": 32.0, "GENETIC": 0.2, "OTHER": 16.7, "PROCEDURE": 8.5, "RADIATION": 1.5}, {"institution": "UC San Diego", "BEHAVIORAL": 29.0, "BIOLOGICAL": 1.5, "COMBINATION_PRODUCT": 0.7, "DEVICE": 11.8, "DIAGNOSTIC_TEST": 1.6, "DIETARY_SUPPLEMENT": 3.3, "DRUG": 32.3, "GENETIC": 0.5, "OTHER": 12.5, "PROCEDURE": 5.5, "RADIATION": 1.1}, {"institution": "UCLA", "BEHAVIORAL": 26.6, "BIOLOGICAL": 6.7, "COMBINATION_PRODUCT": 0.3, "DEVICE": 7.9, "DIAGNOSTIC_TEST": 0.6, "DIETARY_SUPPLEMENT": 3.5, "DRUG": 26.2, "GENETIC": 0.2, "OTHER": 15.1, "PROCEDURE": 9.2, "RADIATION": 3.8}, {"institution": "UCSF", "BEHAVIORAL": 28.4, "BIOLOGICAL": 2.5, "COMBINATION_PRODUCT": 0.1, "DEVICE": 9.5, "DIAGNOSTIC_TEST": 0.9, "DIETARY_SUPPLEMENT": 1.9, "DRUG": 30.0, "GENETIC": 0.3, "OTHER": 18.3, "PROCEDURE": 7.0, "RADIATION": 1.3}, {"institution": "USC", "BEHAVIORAL": 20.5, "BIOLOGICAL": 5.4, "COMBINATION_PRODUCT": 0.2, "DEVICE": 8.9, "DIAGNOSTIC_TEST": 0.9, "DIETARY_SUPPLEMENT": 2.9, "DRUG": 24.9, "GENETIC": 0.8, "OTHER": 23.2, "PROCEDURE": 10.6, "RADIATION": 1.6}], "similarity": [{"institution": "Stanford", "Stanford": 1.0, "UC Davis": 0.936, "UC Irvine": 0.905, "UC San Diego": 0.967, "UCLA": 0.948, "UCSF": 0.917, "USC": 0.906}, {"institution": "UC Davis", "Stanford": 0.936, "UC Davis": 1.0, "UC Irvine": 0.936, "UC San Diego": 0.884, "UCLA": 0.914, "UCSF": 0.892, "USC": 0.947}, {"institution": "UC Irvine", "Stanford": 0.905, "UC Davis": 0.936, "UC Irvine": 1.0, "UC San Diego": 0.799, "UCLA": 0.932, "UCSF": 0.866, "USC": 0.975}, {"institution": "UC San Diego", "Stanford": 0.967, "UC Davis": 0.884, "UC Irvine": 0.799, "UC San Diego": 1.0, "UCLA": 0.88, "UCSF": 0.911, "USC": 0.802}, {"institution": "UCLA", "Stanford": 0.948, "UC Davis": 0.914, "UC Irvine": 0.932, "UC San Diego": 0.88, "UCLA": 1.0, "UCSF": 0.932, "USC": 0.944}, {"institution": "UCSF", "Stanford": 0.917, "UC Davis": 0.892, "UC Irvine": 0.866, "UC San Diego": 0.911, "UCLA": 0.932, "UCSF": 1.0, "USC": 0.874}, {"institution": "USC", "Stanford": 0.906, "UC Davis": 0.947, "UC Irvine": 0.975, "UC San Diego": 0.802, "UCLA": 0.944, "UCSF": 0.874, "USC": 1.0}], "meta": {"n": 7462, "pull_date": "2026-11-12", "status": {"Completed": 4375, "Active": 1662, "Stopped early": 1195, "Other/Unknown": 230}}};
+const INST = D.scorecard.map(d=>d.institution);
+let focus = 'USC';
+const C = {warm:'#8C6D3F', peer:'#CFCAC2', ink:'#1A1A1A', muted:'#6B6660', dim:'#A8A4A0', blue:'#2C5F8A', grid:'rgba(0,0,0,0.07)', white:'#FFFFFF'};
+const NS='http://www.w3.org/2000/svg';
+const fmt1 = v => (Math.round(v*10)/10).toFixed(1);
+const median = a => {const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length%2?s[m]:(s[m-1]+s[m])/2;};
+
+function el(tag, attrs={}, parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+function txt(parent,x,y,s,attrs={}){const t=el('text',Object.assign({x,y},attrs),parent);t.textContent=s;return t;}
+function svgIn(id,w,h){const host=document.getElementById(id);host.innerHTML='';const s=el('svg',{viewBox:`0 0 ${w} ${h}`,role:'img'});host.appendChild(s);return s;}
+
+/* tooltip */
+const tip=document.getElementById('tip');
+function showTip(ev,html){tip.innerHTML=html;tip.style.opacity=1;moveTip(ev);}
+function moveTip(ev){const pad=14;let x=ev.clientX+pad,y=ev.clientY+pad;const r=tip.getBoundingClientRect();if(x+r.width>innerWidth-8)x=ev.clientX-r.width-pad;if(y+r.height>innerHeight-8)y=ev.clientY-r.height-pad;tip.style.left=x+'px';tip.style.top=y+'px';}
+function hideTip(){tip.style.opacity=0;}
+function hover(node,fn){node.addEventListener('mousemove',e=>showTip(e,fn()));node.addEventListener('mouseleave',hideTip);}
+
+/* ---------- pills ---------- */
+const pills=document.getElementById('pills');
+INST.forEach(n=>{const b=document.createElement('button');b.className='pill';b.textContent=n;b.onclick=()=>{focus=n;render();};pills.appendChild(b);});
+
+/* ---------- KPIs ---------- */
+function kpis(){
+  const s=D.scorecard, f=s.find(d=>d.institution===focus), peers=s.filter(d=>d.institution!==focus);
+  const defs=[
+    ['Trials led','trials',v=>v.toLocaleString(),false,'All registered studies'],
+    ['Currently active','pct_active',v=>fmt1(v)+'%',false,'Recruiting or ongoing'],
+    ['Stopped early','termination_rate',v=>fmt1(v)+'%',true,'Terminated / withdrawn'],
+    ['Industry-partnered','pct_industry',v=>fmt1(v)+'%',false,'Has a company collaborator'],
+  ];
+  const host=document.getElementById('kpis');host.innerHTML='';
+  defs.forEach(([label,key,f1,lowerBetter,hint])=>{
+    const med=median(peers.map(d=>d[key])), v=f[key], diff=v-med;
+    const rank=[...s].sort((a,b)=>b[key]-a[key]).findIndex(d=>d.institution===focus)+1;
+    const dtxt = key==='trials' ? `${diff>=0?'+':'−'}${Math.abs(Math.round(diff)).toLocaleString()} vs peer median` : `${diff>=0?'+':'−'}${fmt1(Math.abs(diff))} pts vs peer median`;
+    const cls = Math.abs(diff)<0.05?'':(diff>0?'up':'down');
+    host.insertAdjacentHTML('beforeend',`<div class="kpi"><span class="mono k">${label}</span><div class="v">${f1(v)}</div><div class="s"><span class="${cls}">${dtxt}</span><br>#${rank} of 7 · ${hint}</div></div>`);
+  });
+}
+
+/* ---------- Trend ---------- */
+function trend(){
+  const W=640,H=300,m={t:14,r:70,b:28,l:36};
+  const s=svgIn('trend',W,H);
+  const years=[...new Set(D.trend.map(d=>d.start_year))].sort();
+  const max=Math.ceil(Math.max(...D.trend.map(d=>d.new_trials))/25)*25;
+  const x=y=>m.l+(y-years[0])/(years.at(-1)-years[0])*(W-m.l-m.r);
+  const yS=v=>H-m.b-v/max*(H-m.t-m.b);
+  for(let v=0;v<=max;v+=25){el('line',{x1:m.l,x2:W-m.r,y1:yS(v),y2:yS(v),stroke:v?C.grid:'rgba(0,0,0,0.18)'},s);txt(s,m.l-8,yS(v)+3,v,{class:'ax','text-anchor':'end'});}
+  years.filter(y=>y%5===0).forEach(y=>txt(s,x(y),H-8,y,{class:'ax','text-anchor':'middle'}));
+  const by={};D.trend.forEach(d=>(by[d.institution]??=[]).push(d));
+  const order=INST.filter(n=>n!==focus).concat(focus);
+  order.forEach(n=>{
+    const pts=by[n].sort((a,b)=>a.start_year-b.start_year);
+    const f=n===focus;
+    el('path',{d:pts.map((p,i)=>(i?'L':'M')+x(p.start_year)+','+yS(p.new_trials)).join(''),fill:'none',stroke:f?C.warm:C.peer,'stroke-width':f?2.5:1.5,'stroke-linejoin':'round','stroke-linecap':'round'},s);
+    const last=pts.at(-1);
+    if(f){el('circle',{cx:x(last.start_year),cy:yS(last.new_trials),r:4.5,fill:C.warm,stroke:C.white,'stroke-width':2},s);}
+  });
+  // end labels with collision avoidance
+  const ends=INST.map(n=>{const p=by[n].find(d=>d.start_year===years.at(-1));return {n,v:p?p.new_trials:0,y:yS(p?p.new_trials:0)};}).sort((a,b)=>a.y-b.y);
+  for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<12) ends[i].y=ends[i-1].y+12;
+  ends.forEach(e=>txt(s,W-m.r+8,e.y+4,e.n,{class:e.n===focus?'lbl-strong':'', 'font-size':10.5}));
+  // crosshair
+  const cross=el('line',{y1:m.t,y2:H-m.b,stroke:'rgba(0,0,0,0.25)','stroke-dasharray':'2 3',opacity:0},s);
+  const dot=el('circle',{r:5,fill:C.warm,stroke:C.white,'stroke-width':2,opacity:0},s);
+  const hit=el('rect',{x:m.l,y:m.t,width:W-m.l-m.r,height:H-m.t-m.b,fill:'transparent'},s);
+  hit.addEventListener('mousemove',ev=>{
+    const r=s.getBoundingClientRect(), px=(ev.clientX-r.left)/r.width*W;
+    let yr=Math.round(years[0]+(px-m.l)/(W-m.l-m.r)*(years.at(-1)-years[0]));yr=Math.max(years[0],Math.min(years.at(-1),yr));
+    cross.setAttribute('x1',x(yr));cross.setAttribute('x2',x(yr));cross.setAttribute('opacity',1);
+    const rows=D.trend.filter(d=>d.start_year===yr).sort((a,b)=>b.new_trials-a.new_trials);
+    const fr=rows.find(d=>d.institution===focus);
+    if(fr){dot.setAttribute('cx',x(yr));dot.setAttribute('cy',yS(fr.new_trials));dot.setAttribute('opacity',1);}
+    showTip(ev,`<div class="t">${yr} · new trials</div>`+rows.map(d=>`<div class="row ${d.institution===focus?'f':''}"><span>${d.institution}</span><span>${d.new_trials}</span></div>`).join(''));
+  });
+  hit.addEventListener('mouseleave',()=>{cross.setAttribute('opacity',0);dot.setAttribute('opacity',0);hideTip();});
+  const g=D.growth.find(d=>d.institution===focus);
+  const peak=by[focus].reduce((a,b)=>b.new_trials>a.new_trials?b:a);
+  document.getElementById('trendTake').innerHTML=`<b>${focus}</b> peaked at <b>${peak.new_trials}</b> new trials in ${peak.start_year}; it now averages ${fmt1(g.avg_per_year_2020_25)} a year.`;
+}
+
+/* ---------- horizontal bar helper ---------- */
+function hbars(id,rows,{key,label,fmtV,colorFn,W=420,rowH=30,lw=104,max,tipFn}){
+  const H=rows.length*rowH+8, s=svgIn(id,W,H), vw=W-lw-48;
+  const mx=max??Math.max(...rows.map(r=>r[key]));
+  rows.forEach((r,i)=>{
+    const y=i*rowH+4, w=Math.max(2,r[key]/mx*vw), f=r[label]===focus;
+    const g=el('g',{},s);
+    txt(g,lw-10,y+rowH/2+1,r[label],{'text-anchor':'end',class:f?'lbl-strong':''});
+    el('rect',{x:lw,y:y+6,width:w,height:rowH-14,rx:3,fill:colorFn(r)},g);
+    txt(g,lw+w+6,y+rowH/2+1,fmtV(r[key]),{class:f?'lbl-strong':''});
+    const hit=el('rect',{x:0,y,width:W,height:rowH,fill:'transparent'},g);
+    hover(hit,()=>tipFn(r));
+  });
+}
+
+function growth(){
+  const rows=[...D.growth].sort((a,b)=>b.pct_change-a.pct_change);
+  hbars('growth',rows,{key:'pct_change',label:'institution',fmtV:v=>'+'+Math.round(v)+'%',colorFn:r=>r.institution===focus?C.warm:C.peer,W:420,
+    tipFn:r=>`<div class="t">${r.institution}</div><div class="row"><span>2010–15 avg / yr</span><span>${fmt1(r.avg_per_year_2010_15)}</span></div><div class="row"><span>2020–25 avg / yr</span><span>${fmt1(r.avg_per_year_2020_25)}</span></div><div class="row f"><span>Change</span><span>+${fmt1(r.pct_change)}%</span></div>`});
+  const r=rows.findIndex(d=>d.institution===focus)+1, g=rows[r-1];
+  document.getElementById('growthTake').innerHTML=`<b>${focus}</b> ranks <b>#${r} of 7</b> for growth (+${Math.round(g.pct_change)}%). ${rows[0].institution} grew fastest from a small base; UCSF, the largest, grew least.`;
+}
+
+/* ---------- Termination dot plot ---------- */
+function term(){
+  const rows=[...D.termination].sort((a,b)=>b.actual_vs_expected-a.actual_vs_expected);
+  const W=640,rowH=34,lw=104,H=rows.length*rowH+30, s=svgIn('term',W,H);
+  const max=Math.ceil(Math.max(...rows.map(r=>Math.max(r.actual_pct,r.expected_pct)))/5)*5, vw=W-lw-70;
+  const x=v=>lw+v/max*vw;
+  for(let v=0;v<=max;v+=5){el('line',{x1:x(v),x2:x(v),y1:0,y2:H-24,stroke:C.grid},s);txt(s,x(v),H-8,v+'%',{class:'ax','text-anchor':'middle'});}
+  rows.forEach((r,i)=>{
+    const y=i*rowH+rowH/2, f=r.institution===focus, col=f?C.warm:C.muted;
+    const g=el('g',{},s);
+    txt(g,lw-12,y+4,r.institution,{'text-anchor':'end',class:f?'lbl-strong':''});
+    el('line',{x1:x(r.expected_pct),x2:x(r.actual_pct),y1:y,y2:y,stroke:f?C.warm:C.peer,'stroke-width':2},g);
+    el('circle',{cx:x(r.expected_pct),cy:y,r:5,fill:C.white,stroke:f?C.warm:C.dim,'stroke-width':2},g);
+    el('circle',{cx:x(r.actual_pct),cy:y,r:6,fill:f?C.warm:C.ink,stroke:C.white,'stroke-width':2},g);
+    txt(g,W-60,y+4,r.actual_vs_expected.toFixed(2)+'×',{class:f||r.actual_vs_expected>1.2?'lbl-strong':'','font-family':'DM Mono'});
+    const hit=el('rect',{x:0,y:y-rowH/2,width:W,height:rowH,fill:'transparent'},g);
+    hover(hit,()=>`<div class="t">${r.institution}</div><div class="row f"><span>Actual</span><span>${fmt1(r.actual_pct)}%</span></div><div class="row"><span>Expected for mix</span><span>${fmt1(r.expected_pct)}%</span></div><div class="row"><span>Ratio</span><span>${r.actual_vs_expected.toFixed(2)}×</span></div>`);
+  });
+  txt(s,W-60,-2,'RATIO',{class:'ax'});
+  const f=rows.find(d=>d.institution===focus);
+  const verdict=f.actual_vs_expected>1.15?'well above':f.actual_vs_expected<0.9?'below':'close to';
+  document.getElementById('termTake').innerHTML=`<b>${focus}</b> stops ${fmt1(f.actual_pct)}% of trials early — <b>${verdict}</b> the ${fmt1(f.expected_pct)}% expected for its mix (${f.actual_vs_expected.toFixed(2)}×). USC is the clear outlier at 1.63×.`;
+}
+
+/* ---------- Stop reasons ---------- */
+function stops(){
+  const rows=D.stop_reasons.filter(d=>d.institution===focus).sort((a,b)=>b.pct-a.pct);
+  hbars('stops',rows,{key:'pct',label:'stop_reason',fmtV:v=>Math.round(v)+'%',colorFn:()=>C.warm,W:420,lw:130,max:Math.max(70,...rows.map(r=>r.pct)),
+    tipFn:r=>`<div class="t">${focus} · ${r.stop_reason}</div><div class="row f"><span>Stopped trials</span><span>${r.n}</span></div><div class="row"><span>Share</span><span>${fmt1(r.pct)}%</span></div>`});
+  const top=rows[0], n=rows.reduce((a,b)=>a+b.n,0);
+  document.getElementById('stopTake').innerHTML=`<b>${top.stop_reason}</b> explains ${Math.round(top.pct)}% of ${n} ${focus} trials that stopped early.`;
+}
+
+/* ---------- Areas diverging ---------- */
+function areas(){
+  const rows=D.area_benchmark.filter(d=>d.institution===focus).sort((a,b)=>Math.abs(b.diff_vs_peers_pts)-Math.abs(a.diff_vs_peers_pts)).slice(0,10).sort((a,b)=>b.diff_vs_peers_pts-a.diff_vs_peers_pts);
+  const W=520,rowH=28,lw=150,H=rows.length*rowH+26,s=svgIn('areas',W,H);
+  const mx=Math.max(...rows.map(r=>Math.abs(r.diff_vs_peers_pts)),1), half=(W-lw-40)/2, zero=lw+half;
+  const x=v=>zero+v/mx*half;
+  el('line',{x1:zero,x2:zero,y1:0,y2:H-22,stroke:'rgba(0,0,0,0.25)'},s);
+  txt(s,zero,H-6,'peer avg',{class:'ax','text-anchor':'middle'});
+  rows.forEach((r,i)=>{
+    const y=i*rowH, v=r.diff_vs_peers_pts, g=el('g',{},s);
+    txt(g,lw-10,y+rowH/2+4,r.therapeutic_area,{'text-anchor':'end'});
+    const x0=Math.min(zero,x(v)), w=Math.max(2,Math.abs(x(v)-zero));
+    el('rect',{x:x0,y:y+6,width:w,height:rowH-12,rx:3,fill:v>=0?C.warm:C.blue},g);
+    txt(g,v>=0?x(v)+5:x(v)-5,y+rowH/2+4,(v>=0?'+':'−')+fmt1(Math.abs(v)),{'text-anchor':v>=0?'start':'end'});
+    const hit=el('rect',{x:0,y,width:W,height:rowH,fill:'transparent'},g);
+    hover(hit,()=>`<div class="t">${focus} · ${r.therapeutic_area}</div><div class="row f"><span>Share of portfolio</span><span>${fmt1(r.share_pct)}%</span></div><div class="row"><span>Peer average</span><span>${fmt1(r.peer_avg_pct)}%</span></div><div class="row"><span>Trials</span><span>${r.trials}</span></div>`);
+  });
+}
+
+/* ---------- Heatmap helper ---------- */
+const RAMP=['#F4EFE6','#E6D9C2','#D4BE98','#C0A06E','#A6824D','#8C6D3F','#6B5230','#4A3820'];
+function rampColor(t){t=Math.max(0,Math.min(1,t));const i=Math.min(RAMP.length-1,Math.floor(t*(RAMP.length-1)+0.5));return RAMP[i];}
+function heat(id,rowsNames,cols,val,{lo,hi,fmtV,colLabel=c=>c,W=520,lw=96,cellH=30,top=58,tipFn,rotate=true}){
+  const H=top+rowsNames.length*cellH+4,s=svgIn(id,W,H),cw=(W-lw)/cols.length;
+  cols.forEach((c,j)=>{const cx=lw+j*cw+cw/2;
+    if(rotate){const t=txt(s,cx,top-8,colLabel(c),{class:'ax','text-anchor':'start',transform:`rotate(-40 ${cx} ${top-8})`});}
+    else txt(s,cx,top-8,colLabel(c),{class:'ax','text-anchor':'middle'});});
+  rowsNames.forEach((r,i)=>{
+    const y=top+i*cellH, f=r===focus;
+    txt(s,lw-10,y+cellH/2+4,r,{'text-anchor':'end',class:f?'lbl-strong':''});
+    cols.forEach((c,j)=>{
+      const v=val(r,c), t=(v-lo)/(hi-lo), fill=rampColor(t);
+      const g=el('g',{},s);
+      el('rect',{x:lw+j*cw+1,y:y+1,width:cw-2,height:cellH-2,rx:2,fill},g);
+      const dark=t>0.55;
+      txt(g,lw+j*cw+cw/2,y+cellH/2+4,fmtV(v),{'text-anchor':'middle','font-size':10.5,style:`fill:${dark?'#fff':C.ink};font-weight:${f?600:400}`});
+      const hit=el('rect',{x:lw+j*cw,y,width:cw,height:cellH,fill:'transparent'},g);
+      hover(hit,()=>tipFn(r,c,v));
+    });
+    if(f) el('rect',{x:lw-2,y:y-1,width:W-lw+2,height:cellH+2,fill:'none',stroke:C.ink,'stroke-width':1.5,rx:3},s);
+  });
+}
+
+function phase(){
+  const cols=['Early Phase 1','Phase 1','Phase 1/2','Phase 2','Phase 2/3','Phase 3','Phase 4','Not applicable'];
+  const rows=INST, get=(r,c)=>D.phase_mix.find(d=>d.institution===r)[c];
+  heat('phase',rows,cols,get,{lo:0,hi:20,fmtV:v=>Math.round(v),colLabel:c=>c.replace('Phase ','Ph ').replace('Early Ph 1','Early 1').replace('Not applicable','N/A*'),
+    tipFn:(r,c,v)=>`<div class="t">${r}</div><div class="row f"><span>${c}</span><span>${fmt1(v)}%</span></div>`});
+  document.getElementById('phase').insertAdjacentHTML('beforeend','<p class="sub" style="margin:8px 0 0">*N/A = studies without an FDA phase (behavioral, device, observational). Color scale capped at 20% so drug phases stay readable.</p>');
+}
+function interv(){
+  const cols=['DRUG','BEHAVIORAL','OTHER','DEVICE','PROCEDURE','DIETARY_SUPPLEMENT','BIOLOGICAL','RADIATION','DIAGNOSTIC_TEST','COMBINATION_PRODUCT','GENETIC'];
+  const nice={DRUG:'Drug',BEHAVIORAL:'Behavioral',OTHER:'Other',DEVICE:'Device',PROCEDURE:'Procedure',DIETARY_SUPPLEMENT:'Supplement',BIOLOGICAL:'Biological',RADIATION:'Radiation',DIAGNOSTIC_TEST:'Diagnostic',COMBINATION_PRODUCT:'Combo',GENETIC:'Genetic'};
+  heat('interv',INST,cols,(r,c)=>D.intervention_mix.find(d=>d.institution===r)[c],{lo:0,hi:32,fmtV:v=>Math.round(v),colLabel:c=>nice[c],
+    tipFn:(r,c,v)=>`<div class="t">${r}</div><div class="row f"><span>${nice[c]}</span><span>${fmt1(v)}%</span></div>`});
+}
+function sim(){
+  const short={'UC San Diego':'UCSD','UC Davis':'Davis','UC Irvine':'Irvine'};
+  heat('sim',INST,INST,(r,c)=>D.similarity.find(d=>d.institution===r)[c],{lo:0.78,hi:1,fmtV:v=>v.toFixed(2),colLabel:c=>short[c]||c,rotate:true,
+    tipFn:(r,c,v)=>`<div class="t">${r} vs ${c}</div><div class="row f"><span>Cosine similarity</span><span>${v.toFixed(3)}</span></div>`});
+  const row=D.similarity.find(d=>d.institution===focus);
+  const others=INST.filter(n=>n!==focus).map(n=>[n,row[n]]).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('simTake').innerHTML=`<b>${focus}</b>'s portfolio looks most like <b>${others[0][0]}</b> (${others[0][1].toFixed(2)}) and least like ${others.at(-1)[0]} (${others.at(-1)[1].toFixed(2)}).`;
+}
+
+function tables(){
+  const s=D.scorecard;
+  document.getElementById('tables').innerHTML=`<table><thead><tr><th>Institution</th><th>Trials</th><th>% active</th><th>% stopped early</th><th>% industry</th><th>Growth</th><th>Actual vs expected stop</th></tr></thead><tbody>`+
+   s.map(r=>{const g=D.growth.find(d=>d.institution===r.institution),t=D.termination.find(d=>d.institution===r.institution);
+     return `<tr${r.institution===focus?' style="font-weight:600"':''}><td>${r.institution}</td><td>${r.trials.toLocaleString()}</td><td>${fmt1(r.pct_active)}</td><td>${fmt1(r.termination_rate)}</td><td>${fmt1(r.pct_industry)}</td><td>+${Math.round(g.pct_change)}%</td><td>${t.actual_vs_expected.toFixed(2)}×</td></tr>`;}).join('')+`</tbody></table>`;
+}
+
+function render(){
+  document.querySelectorAll('.pill').forEach(b=>b.setAttribute('aria-pressed',b.textContent===focus));
+  document.querySelectorAll('.focusName').forEach(e=>e.textContent=focus);
+  kpis();trend();growth();term();stops();areas();sim();phase();interv();tables();
+}
+document.getElementById('nTrials').textContent=D.meta.n.toLocaleString();
+document.getElementById('pullDate').textContent=new Date(D.meta.pull_date+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+render();
+</script>
+</body>
+</html>
