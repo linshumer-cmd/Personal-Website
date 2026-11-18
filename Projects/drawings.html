@@ -7,401 +7,266 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        headline: ['Newsreader'],
-        body: ['Manrope'],
-        mono: ['DM Mono'],
-      },
-      colors: {
-        sand: '#F7F5F0',
-        sand2: '#EFEDE8',
-        ink: '#1A1A1A',
-        muted: '#6B6660',
-        dim: '#A8A4A0',
-        warm: '#8C6D3F',
-      }
-    }
-  }
-}
+tailwind.config = { theme: { extend: {
+  fontFamily: { headline: ['Newsreader'], body: ['Manrope'], mono: ['DM Mono'] },
+  colors: { sand:'#F7F5F0', sand2:'#EFEDE8', ink:'#1A1A1A', muted:'#6B6660', dim:'#A8A4A0', warm:'#8C6D3F', blue:'#2C5F8A' }
+} } }
 </script>
 <style>
-  .grain-overlay {
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    pointer-events:none; z-index:9999; opacity:0.025;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* masonry layout */
-  .masonry {
-    columns: 2;
-    column-gap: 16px;
-  }
-  @media (min-width: 768px) {
-    .masonry { columns: 3; }
-  }
-  @media (max-width: 480px) {
-    .masonry { columns: 1; }
-  }
-
-  .masonry-item {
-    break-inside: avoid;
-    margin-bottom: 16px;
-  }
-
-  /* lightbox */
-  #lightbox {
-    display: none;
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(10,10,10,0.92);
-    align-items: center; justify-content: center;
-    padding: 40px;
-  }
-  #lightbox.open { display: flex; }
-  #lb-img {
-    max-width: min(800px, 90vw);
-    max-height: 85vh;
-    object-fit: contain;
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  #lb-close {
-    position: absolute; top: 28px; right: 36px;
-    font-size: 20px; color: rgba(255,255,255,0.4);
-    cursor: pointer; background: none; border: none;
-    font-family: 'Manrope', sans-serif;
-    transition: color 0.2s;
-  }
-  #lb-close:hover { color: white; }
-  #lb-caption {
-    position: absolute; bottom: 32px; left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-  }
-  #lb-title {
-    font-family: 'Newsreader', serif;
-    font-style: italic; font-size: 18px;
-    color: rgba(255,255,255,0.8);
-    display: block; margin-bottom: 4px;
-  }
-  #lb-medium {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px; letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
-    display: block;
-  }
-
-  .painting-card {
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-  .painting-card:hover { opacity: 0.88; }
-  .painting-card:hover .card-overlay {
-    opacity: 1;
-  }
-  .card-overlay {
-    opacity: 0;
-    transition: opacity 0.25s;
-  }
-
-  /* filter buttons */
-  .filter-btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px; letter-spacing: 0.16em;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border: 1px solid rgba(0,0,0,0.1);
-    color: #A8A4A0;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.2s;
-    border-radius: 2px;
-  }
-  .filter-btn:hover { color: #1A1A1A; border-color: rgba(0,0,0,0.2); }
-  .filter-btn.on {
-    color: #8C6D3F;
-    border-color: rgba(140,109,63,0.4);
-    background: rgba(140,109,63,0.06);
-  }
-
-  .item-hidden { display: none; }
+  .grain-overlay { position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:0.025;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .dot { width:6px; height:6px; border-radius:50%; background:#C4A97A; display:inline-block; animation:pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+  .masonry { columns: 1; column-gap: 16px; }
+  @media (min-width: 560px) { .masonry { columns: 2; } }
+  @media (min-width: 900px) { .masonry { columns: 3; } }
+  .masonry-item { break-inside: avoid; margin-bottom: 24px; cursor: zoom-in; }
+  .masonry-item img { transition: opacity .25s, transform .6s cubic-bezier(.23,1,.32,1); }
+  .masonry-item:hover img { opacity: .92; transform: scale(1.015); }
+  .filter-btn { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; padding:6px 14px;
+    border:1px solid rgba(0,0,0,.1); color:#A8A4A0; background:transparent; cursor:pointer; transition:all .2s; }
+  .filter-btn:hover { color:#1A1A1A; border-color:rgba(0,0,0,.2); }
+  .filter-btn.on { color:#8C6D3F; border-color:rgba(140,109,63,.4); background:rgba(140,109,63,.06); }
+  .hidden-item { display:none; }
+  #lightbox { display:none; position:fixed; inset:0; z-index:1000; background:rgba(10,10,10,.92); align-items:center; justify-content:center; padding:40px; flex-direction:column; }
+  #lightbox.open { display:flex; }
+  #lb-img { max-width:min(1000px,92vw); max-height:80vh; object-fit:contain; }
+  #lb-close { position:absolute; top:24px; right:32px; font-size:20px; color:rgba(255,255,255,.5); background:none; border:none; cursor:pointer; }
+  #lb-close:hover { color:#fff; }
+  .lb-nav { position:absolute; top:50%; transform:translateY(-50%); font-size:28px; color:rgba(255,255,255,.4); background:none; border:none; cursor:pointer; padding:20px; }
+  .lb-nav:hover { color:#fff; }
 </style>
 </head>
 <body class="bg-sand text-ink font-body">
 <div class="grain-overlay"></div>
-
-<!-- LIGHTBOX -->
-<div id="lightbox" onclick="closeLB()">
-  <button id="lb-close" onclick="closeLB()">✕</button>
+<div id="lightbox" aria-modal="true" role="dialog">
+  <button id="lb-close" aria-label="Close">✕</button>
+  <button class="lb-nav" id="lb-prev" style="left:12px" aria-label="Previous">‹</button>
   <img id="lb-img" src="" alt="">
-  <div id="lb-caption">
-    <span id="lb-title"></span>
-    <span id="lb-medium"></span>
+  <div class="mt-5 text-center">
+    <span id="lb-title" class="font-headline italic text-lg text-white/80 block"></span>
+    <span id="lb-medium" class="font-mono text-xs tracking-widest uppercase text-white/40 block mt-1"></span>
   </div>
+  <button class="lb-nav" id="lb-next" style="right:12px" aria-label="Next">›</button>
 </div>
-
 <main class="px-6 py-16 max-w-6xl mx-auto">
-
-  <!-- TOP BAR -->
   <div class="flex justify-between items-center mb-16">
-    <a href="../index.html"
-       class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors flex items-center gap-2">
-      ← Back
-    </a>
-    <div class="flex gap-6">
-      <a href="https://www.linkedin.com/in/meredith-liu-linshu/" target="_blank"
-         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">LinkedIn</a>
-      <a href="mailto:linshumere@email.com"
-         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">Email</a>
-    </div>
+    <a href="../index.html" class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">← Back</a>
+    <a href="https://www.linkedin.com/in/meredith-liu-linshu/" target="_blank" class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">LinkedIn</a>
   </div>
 
-  <!-- HEADER -->
-  <header class="mb-16">
-    <span class="font-mono text-xs tracking-widest text-dim uppercase mb-4 block">Oil · Pencil</span>
-    <h1 class="font-headline text-6xl md:text-7xl font-bold tracking-tighter text-ink mb-6 leading-none">
-      Studio
-    </h1>
-    <p class="font-body text-lg text-muted max-w-lg leading-relaxed">
-      Not a professional practice, just a serious one. Mostly still life,
-      portraits, and observation — working through value before colour.
+  <header class="mb-14">
+    <span class="font-mono text-xs tracking-widest text-warm uppercase mb-4 block"><span class="dot mr-1"></span>Art · Ongoing always</span>
+    <h1 class="font-headline text-6xl md:text-8xl font-bold tracking-tighter text-ink mb-6 leading-none">Studio</h1>
+    <p class="font-body text-lg text-muted max-w-xl leading-relaxed">
+      Not a professional practice, just a serious one. Oil paintings, charcoal and pencil drawings,
+      mixed-media pieces, and the occasional riff on a painter I love.
     </p>
   </header>
-
-  <!-- FILTER -->
-  <div class="flex gap-2 mb-10">
-    <button class="filter-btn on" onclick="filter('all', this)">All</button>
-    <button class="filter-btn" onclick="filter('oil', this)">Oil</button>
-    <button class="filter-btn" onclick="filter('sketch', this)">Sketch</button>
-    
+  <div class="flex flex-wrap gap-2 mb-10" role="group" aria-label="Filter by medium">
+    <button class="filter-btn on" data-f="all">All</button>
+    <button class="filter-btn" data-f="painting">Painting</button>
+    <button class="filter-btn" data-f="drawing">Drawing</button>
+    <button class="filter-btn" data-f="mixed">Mixed media</button>
+    <button class="filter-btn" data-f="studio">In the studio</button>
   </div>
-
-  <!-- MASONRY GRID -->
+  <!-- To add a piece: put a web-sized image in images/web/ and copy one <figure> block. -->
   <div class="masonry" id="gallery">
-
-    <!--
-    ══════════════════════════════════════
-    HOW TO ADD A NEW PAINTING:
-
-    1. Copy one .masonry-item block below
-    2. Change data-medium to: oil / sketch / ink
-    3. Change src to your image path
-    4. Update title, medium label, and note
-    5. Save and refresh
-
-    The image height is set by the actual
-    image — no need to set a fixed height.
-    ══════════════════════════════════════
-    -->
-
-    <!-- PAINTING 1 -->
-    <div class="masonry-item painting-card" data-medium="oil"
-         onclick="openLB('images/vgflower.JPG', 'Play on Van Gogh', 'Oil on canvas')">
-      <div class="relative overflow-hidden border border-black/6">
-        <!-- placeholder shown until image loads -->
-        <div class="bg-sand2 h-64 flex items-center justify-center" id="ph-1">
-          <span class="font-mono text-xs text-dim uppercase tracking-widest">Loading…</span>
-        </div>
-        <img src="images/vgflower.JPG" alt="Play on Van Gogh"
-             class="w-full block hidden"
-             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
-        <!-- hover overlay -->
-        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
-          <span class="font-headline italic text-white text-lg">Play on Van Gogh</span>
-        </div>
+    <figure class="masonry-item art-card" data-medium="painting" tabindex="0"
+      data-src="../images/web/roses.jpg" data-title="Roses, after Van Gogh" data-medium-label="Oil">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/roses.jpg" alt="Roses, after Van Gogh" loading="lazy" class="w-full block">
       </div>
-      <div class="pt-3 pb-1">
+      <figcaption class="pt-3 pb-1">
         <div class="flex items-baseline justify-between gap-3">
-          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Play on Van Gogh</h3>
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Roses, after Van Gogh</h3>
           <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
         </div>
-        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
-          Riffing on the sunflower series — same subject, different light temperature and handling.
-        </p>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">A study of Van Gogh’s white roses on a green ground.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="painting" tabindex="0"
+      data-src="../images/web/drippy_portrait.jpg" data-title="Drip" data-medium-label="Oil">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/drippy_portrait.jpg" alt="Drip" loading="lazy" class="w-full block">
       </div>
-    </div>
-
-    <!-- PAINTING 2 -->
-    <div class="masonry-item painting-card" data-medium="sketch"
-         onclick="openLB('images/figure-study.jpg', 'Figure Study', 'Pencil on newsprint')">
-      <div class="relative overflow-hidden border border-black/6">
-        <div class="bg-sand2 h-80 flex items-center justify-center" id="ph-2">
-          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
-        </div>
-        <img src="images/figure-study.jpg" alt="Figure Study"
-             class="w-full block hidden"
-             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
-        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
-          <span class="font-headline italic text-white text-lg">Figure Study</span>
-        </div>
-      </div>
-      <div class="pt-3 pb-1">
+      <figcaption class="pt-3 pb-1">
         <div class="flex items-baseline justify-between gap-3">
-          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Figure Study</h3>
-          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Pencil</span>
-        </div>
-        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
-          30-minute gesture. Trying to capture weight before detail.
-        </p>
-      </div>
-    </div>
-
-    <!-- PAINTING 3 -->
-    <div class="masonry-item painting-card" data-medium="oil"
-         onclick="openLB('images/still-life.jpg', 'Still Life with Ceramic', 'Oil on canvas')">
-      <div class="relative overflow-hidden border border-black/6">
-        <div class="bg-sand2 h-56 flex items-center justify-center">
-          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
-        </div>
-        <img src="images/still-life.jpg" alt="Still Life with Ceramic"
-             class="w-full block hidden"
-             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
-        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
-          <span class="font-headline italic text-white text-lg">Still Life with Ceramic</span>
-        </div>
-      </div>
-      <div class="pt-3 pb-1">
-        <div class="flex items-baseline justify-between gap-3">
-          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Still Life with Ceramic</h3>
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Drip</h3>
           <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
         </div>
-        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
-          First experiment with glazing layers over an imprimatura. Single light source.
-        </p>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Expressive portrait study, letting the paint run.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="painting" tabindex="0"
+      data-src="../images/web/floral_still.jpg" data-title="Bouquet with Pink Cloth" data-medium-label="Oil">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/floral_still.jpg" alt="Bouquet with Pink Cloth" loading="lazy" class="w-full block">
       </div>
-    </div>
-
-    <!-- PAINTING 4 -->
-    <div class="masonry-item painting-card" data-medium="ink"
-         onclick="openLB('images/architectural-sketch.jpg', 'Architectural Sketch', 'Ink on paper')">
-      <div class="relative overflow-hidden border border-black/6">
-        <div class="bg-sand2 h-72 flex items-center justify-center">
-          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
-        </div>
-        <img src="images/architectural-sketch.jpg" alt="Architectural Sketch"
-             class="w-full block hidden"
-             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
-        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
-          <span class="font-headline italic text-white text-lg">Architectural Sketch</span>
-        </div>
-      </div>
-      <div class="pt-3 pb-1">
+      <figcaption class="pt-3 pb-1">
         <div class="flex items-baseline justify-between gap-3">
-          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Architectural Sketch</h3>
-          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Ink</span>
-        </div>
-        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
-          Building facades from observation. Quick ink study — no underdrawing.
-        </p>
-      </div>
-    </div>
-
-    <!-- PAINTING 5 -->
-    <div class="masonry-item painting-card" data-medium="oil"
-         onclick="openLB('images/light-study.jpg', 'Light Study', 'Oil on panel')">
-      <div class="relative overflow-hidden border border-black/6">
-        <div class="bg-sand2 h-48 flex items-center justify-center">
-          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
-        </div>
-        <img src="images/light-study.jpg" alt="Light Study"
-             class="w-full block hidden"
-             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
-        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
-          <span class="font-headline italic text-white text-lg">Light Study</span>
-        </div>
-      </div>
-      <div class="pt-3 pb-1">
-        <div class="flex items-baseline justify-between gap-3">
-          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Light Study</h3>
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Bouquet with Pink Cloth</h3>
           <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
         </div>
-        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
-          High-chroma shadow temperature. Single artificial source, hard shadows.
-        </p>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Still life with flowers, fruit and folded fabric.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="painting" tabindex="0"
+      data-src="../images/web/irises_ear.jpg" data-title="Irises, with an Ear" data-medium-label="Oil">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/irises_ear.jpg" alt="Irises, with an Ear" loading="lazy" class="w-full block">
       </div>
-    </div>
-
-    <!-- PAINTING 6 -->
-    <div class="masonry-item painting-card" data-medium="sketch"
-         onclick="openLB('images/portrait-study.jpg', 'Portrait Study', 'Graphite on paper')">
-      <div class="relative overflow-hidden border border-black/6">
-        <div class="bg-sand2 h-96 flex items-center justify-center">
-          <span class="font-mono text-xs text-dim uppercase tracking-widest">Add image</span>
-        </div>
-        <img src="images/portrait-study.jpg" alt="Portrait Study"
-             class="w-full block hidden"
-             onload="this.previousElementSibling.style.display='none';this.classList.remove('hidden')">
-        <div class="card-overlay absolute inset-0 bg-ink/40 flex items-end p-4">
-          <span class="font-headline italic text-white text-lg">Portrait Study</span>
-        </div>
-      </div>
-      <div class="pt-3 pb-1">
+      <figcaption class="pt-3 pb-1">
         <div class="flex items-baseline justify-between gap-3">
-          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Portrait Study</h3>
-          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Graphite</span>
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Irises, with an Ear</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
         </div>
-        <p class="font-body text-sm text-muted mt-1 leading-relaxed">
-          Value structure before likeness. The shadow shapes do the work.
-        </p>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">A play on Van Gogh’s Irises — and his ear.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="drawing" tabindex="0"
+      data-src="../images/web/hands_sketch.jpg" data-title="Hands" data-medium-label="Charcoal">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/hands_sketch.jpg" alt="Hands" loading="lazy" class="w-full block">
       </div>
-    </div>
-
-    <!--
-    ADD MORE PAINTINGS HERE.
-    Copy any .masonry-item block above,
-    update src, title, medium, and note.
-    -->
-
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Hands</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Charcoal</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Figure study in charcoal and graphite.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="painting" tabindex="0"
+      data-src="../images/web/blue_white_vase.jpg" data-title="Blue-and-White Vase" data-medium-label="Oil">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/blue_white_vase.jpg" alt="Blue-and-White Vase" loading="lazy" class="w-full block">
+      </div>
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Blue-and-White Vase</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Still life with a porcelain vase and oranges.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="painting" tabindex="0"
+      data-src="../images/web/pearl_panels.jpg" data-title="Pearl, in Four Panels" data-medium-label="Painting">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/pearl_panels.jpg" alt="Pearl, in Four Panels" loading="lazy" class="w-full block">
+      </div>
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Pearl, in Four Panels</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Painting</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Girl with a Pearl Earring, reworked across four panels.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="mixed" tabindex="0"
+      data-src="../images/web/ski_frame.jpg" data-title="Ski Day" data-medium-label="Mixed media">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/ski_frame.jpg" alt="Ski Day" loading="lazy" class="w-full block">
+      </div>
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Ski Day</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Mixed media</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Textured snow slope with tiny skiers, in an ornate frame.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="mixed" tabindex="0"
+      data-src="../images/web/ski_frame_close.jpg" data-title="Ski Day (detail)" data-medium-label="Mixed media">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/ski_frame_close.jpg" alt="Ski Day (detail)" loading="lazy" class="w-full block">
+      </div>
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Ski Day (detail)</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Mixed media</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Close-up of the slope.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="drawing" tabindex="0"
+      data-src="../images/web/wall_drawings.jpg" data-title="Studio Wall: Drawings" data-medium-label="Pencil · Charcoal">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/wall_drawings.jpg" alt="Studio Wall: Drawings" loading="lazy" class="w-full block">
+      </div>
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Studio Wall: Drawings</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Pencil · Charcoal</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Portrait and figure sketches.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="studio" tabindex="0"
+      data-src="../images/web/wall_paintings.jpg" data-title="Studio Wall: Paintings" data-medium-label="Oil">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/wall_paintings.jpg" alt="Studio Wall: Paintings" loading="lazy" class="w-full block">
+      </div>
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Studio Wall: Paintings</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Oil</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">Work in progress, pinned up.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="studio" tabindex="0"
+      data-src="../images/web/roses_easel.jpg" data-title="On the Easel" data-medium-label="Studio">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/roses_easel.jpg" alt="On the Easel" loading="lazy" class="w-full block">
+      </div>
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">On the Easel</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Studio</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">The roses mid-way.</p>
+      </figcaption>
+    </figure>
+    <figure class="masonry-item art-card" data-medium="studio" tabindex="0"
+      data-src="../images/web/wall_lamp.jpg" data-title="Studio, Evening" data-medium-label="Studio">
+      <div class="relative overflow-hidden border border-black/6 bg-sand2">
+        <img src="../images/web/wall_lamp.jpg" alt="Studio, Evening" loading="lazy" class="w-full block">
+      </div>
+      <figcaption class="pt-3 pb-1">
+        <div class="flex items-baseline justify-between gap-3">
+          <h3 class="font-headline text-lg font-bold text-ink leading-tight">Studio, Evening</h3>
+          <span class="font-mono text-xs text-dim uppercase tracking-wide flex-shrink-0">Studio</span>
+        </div>
+        <p class="font-body text-sm text-muted mt-1 leading-relaxed">The wall under a sunset lamp.</p>
+      </figcaption>
+    </figure>
   </div>
-
 </main>
-
-<!-- FOOTER -->
 <footer class="border-t border-black/8 px-6 py-10 mt-4">
-  <div class="max-w-6xl mx-auto flex justify-between items-center flex-wrap gap-6">
+  <div class="max-w-6xl mx-auto flex justify-between items-center">
     <span class="font-headline italic text-xl text-muted">Meredith Liu</span>
-    <div class="flex gap-8">
-      <a href="../index.html"
-         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">← Home</a>
-      <a href="https://www.linkedin.com/in/meredith-liu-linshu/" target="_blank"
-         class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">LinkedIn</a>
-    </div>
+    <a href="../index.html" class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">Home →</a>
   </div>
 </footer>
-
 <script>
-// ── FILTER ──
-function filter(medium, btn) {
-  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('on'); });
-  btn.classList.add('on');
-  document.querySelectorAll('.masonry-item').forEach(function(item) {
-    if (medium === 'all' || item.dataset.medium === medium) {
-      item.classList.remove('item-hidden');
-    } else {
-      item.classList.add('item-hidden');
-    }
-  });
-}
-
-// ── LIGHTBOX ──
-function openLB(src, title, medium) {
-  document.getElementById('lb-img').src = src;
-  document.getElementById('lb-title').textContent = title;
-  document.getElementById('lb-medium').textContent = medium;
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeLB() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeLB();
+const cards=[...document.querySelectorAll('.art-card')];
+let vis=cards, idx=0;
+document.querySelectorAll('.filter-btn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  cards.forEach(c=>c.classList.toggle('hidden-item',b.dataset.f!=='all'&&c.dataset.medium!==b.dataset.f));
+  vis=cards.filter(c=>!c.classList.contains('hidden-item'));
 });
+const lb=document.getElementById('lightbox'),img=document.getElementById('lb-img');
+function show(i){idx=(i+vis.length)%vis.length;const c=vis[idx];img.src=c.dataset.src;img.alt=c.dataset.title;
+  document.getElementById('lb-title').textContent=c.dataset.title;document.getElementById('lb-medium').textContent=c.dataset.mediumLabel;lb.classList.add('open');}
+cards.forEach(c=>{c.onclick=()=>show(vis.indexOf(c));c.onkeydown=e=>{if(e.key==='Enter')show(vis.indexOf(c));};});
+document.getElementById('lb-close').onclick=()=>lb.classList.remove('open');
+document.getElementById('lb-prev').onclick=e=>{e.stopPropagation();show(idx-1);};
+document.getElementById('lb-next').onclick=e=>{e.stopPropagation();show(idx+1);};
+lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open');};
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')lb.classList.remove('open');if(e.key==='ArrowRight')show(idx+1);if(e.key==='ArrowLeft')show(idx-1);});
 </script>
 </body>
 </html>

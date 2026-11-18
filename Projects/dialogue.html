@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multicellular Programs in Liver Cancer — Meredith Liu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { headline: ['Newsreader'], body: ['Manrope'], mono: ['DM Mono'] },
+  colors: { sand:'#F7F5F0', sand2:'#EFEDE8', ink:'#1A1A1A', muted:'#6B6660', dim:'#A8A4A0', warm:'#8C6D3F', blue:'#2C5F8A' }
+} } }
+</script>
+<style>
+  .grain-overlay { position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:0.025;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .dot { width:6px; height:6px; border-radius:50%; background:#C4A97A; display:inline-block; animation:pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+</style>
+</head>
+<body class="bg-sand text-ink font-body">
+<div class="grain-overlay"></div>
+<main class="px-6 py-16 max-w-5xl mx-auto">
+  <div class="flex justify-between items-center mb-16">
+    <a href="../index.html" class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">← Back</a>
+    <a href="https://www.linkedin.com/in/meredith-liu-linshu/" target="_blank" class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">LinkedIn</a>
+  </div>
+
+  <header class="mb-14">
+    <span class="font-mono text-xs tracking-widest text-warm uppercase mb-4 block"><span class="dot mr-2"></span>Single-cell genomics · 2026</span>
+    <h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter text-ink leading-none mb-6">Multicellular Programs<br><em class="font-normal text-muted">in Liver Cancer</em></h1>
+    <p class="font-body text-lg text-muted leading-relaxed max-w-2xl">Applying DIALOGUE to a liver cancer single-cell RNA-seq cohort to find multicellular programs: sets of genes in different cell types that rise and fall together across patients, pointing to coordinated cell–cell interactions in the tumor microenvironment.</p>
+  </header>
+  <div class="bg-warm/5 border border-warm/25 p-8 mb-12 flex flex-col md:flex-row md:items-center gap-4">
+    <span class="dot"></span>
+    <p class="font-headline text-2xl italic text-ink">Still working on this one.</p>
+    <p class="font-body text-sm text-muted md:ml-auto">Results and write-up will be posted here as the analysis matures.</p>
+  </div>
+  <div class="grid md:grid-cols-12 gap-10">
+    <section class="md:col-span-7">
+      <div class="flex items-center gap-4 mb-4"><span class="font-mono text-xs uppercase tracking-widest text-dim">Questions</span><div class="flex-1 h-px bg-black/8"></div></div>
+      <ul class="border-b border-black/6"><li class="py-4 border-t border-black/6 font-body text-muted leading-relaxed">Which immune, stromal and malignant cell programs move together across patients?</li><li class="py-4 border-t border-black/6 font-body text-muted leading-relaxed">Do those multicellular programs line up with clinical features or outcomes?</li><li class="py-4 border-t border-black/6 font-body text-muted leading-relaxed">How well do results reproduce when the method is re-run independently on the same data?</li></ul>
+    </section>
+    <section class="md:col-span-5">
+      <div class="flex items-center gap-4 mb-4"><span class="font-mono text-xs uppercase tracking-widest text-dim">Status</span><div class="flex-1 h-px bg-black/8"></div></div>
+      <ul class="bg-white border border-black/6 p-6"><li class="flex items-center gap-3 py-2"><span class="font-mono text-xs text-ink uppercase tracking-widest w-16 flex-shrink-0">Done</span>
+        <span class="font-body text-sm text-ink">Data received and organized</span></li><li class="flex items-center gap-3 py-2"><span class="font-mono text-xs text-warm uppercase tracking-widest w-16 flex-shrink-0">Now</span>
+        <span class="font-body text-sm text-ink">QC, cell-type annotation and DIALOGUE setup</span></li><li class="flex items-center gap-3 py-2"><span class="font-mono text-xs text-dim uppercase tracking-widest w-16 flex-shrink-0">Next</span>
+        <span class="font-body text-sm text-muted">Identify and interpret multicellular programs</span></li><li class="flex items-center gap-3 py-2"><span class="font-mono text-xs text-dim uppercase tracking-widest w-16 flex-shrink-0">Next</span>
+        <span class="font-body text-sm text-muted">Compare with collaborators’ results and wet-lab follow-up</span></li></ul>
+    </section>
+  </div>
+</main>
+<footer class="border-t border-black/8 px-6 py-10 mt-4">
+  <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <span class="font-headline italic text-xl text-muted">Meredith Liu</span>
+    <a href="../index.html" class="font-mono text-xs uppercase tracking-widest text-dim hover:text-ink transition-colors">Home →</a>
+  </div>
+</footer>
+
+</body>
+</html>
